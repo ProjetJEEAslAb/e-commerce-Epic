@@ -1,10 +1,10 @@
-package fr.adaming.service;
+package fr.adaming.dao;
 
 import java.util.List;
 
 import fr.adaming.model.Categorie;
 
-public interface ICategorieService {
+public interface ICategorieDao {
 
 	// TODO getCategorieById
 	public Categorie getCategorieById(Categorie cat) throws Exception;
