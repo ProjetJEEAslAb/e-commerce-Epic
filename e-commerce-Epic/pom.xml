@@ -6,6 +6,12 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
 
+
+<properties>
+  	<spring-version>4.1.9.RELEASE</spring-version>
+  	<hibernate-version>4.2.21.Final</hibernate-version>
+  </properties>
+  
 	<!-- les dependances spring -->
 
 	<dependencies>
