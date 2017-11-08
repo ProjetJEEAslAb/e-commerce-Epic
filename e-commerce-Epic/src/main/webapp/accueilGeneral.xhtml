@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Page d'accueil du site</title>
+	<h:outputStylesheet library="css" name="monCss.css"></h:outputStylesheet>
+</h:head>
+
+<h:body styleClass="flex" >
+	<!-- ============================ CSS  ============================ -->
+
+	<!-- ============================ Bannière  ============================ -->
+	<div class="banniere">
+		<h1 style="color: #009999">PokéShop</h1>
+		<h:graphicImage value="resources/images/bannergif.gif"
+			style="height: 200px" />
+		<h2
+			style="text-align: left; color: #2d862d; position: relative; bottom: -100px; border: solid">
+			Une autre façon <br /> de faire ses courses
+		</h2>
+	</div>
+
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+
+	<!-- ============================ Menu  ============================ -->
+	<div class="menu">
+		<h:form style="position:relative; bottom:110px">
+			<p:growl id="messages" showDetail="true" />
+
+			<p:tabMenu activeIndex="#{param.i}">
+				<p:menuitem value="Accueil" action="accueilGeneral;"
+					update="messages" />
+				<p:menuitem value="Se connecter" onclick="PF('dlgClient').show();"
+					update="messages" />
+				<p:menuitem value="S'inscrire" action="ajoutClient"
+					update="messages" />
+				<p:menuitem value="Panier" action="seConnecter" update="messages" />
+			</p:tabMenu>
+		</h:form>
+
+
+		<!--========================= Style de connection =====================================-->
+		<h:form>
+			<p:growl id="growl" sticky="true" showDetail="true" life="3000" />
+
+			<p:dialog header="Connection" widgetVar="dlgClient" resizable="false">
+				<h:panelGrid columns="2" cellpadding="5">
+					<p:inputText id="username" value="#{cMB.client.mail}"
+						required="false" label="username" />
+					<p:watermark for="username" value="Email" />
+
+					<p:password id="password" value="#{cMB.client.mdp}"
+						required="false" label="password" />
+					<p:watermark for="password" value="Mot de passe" />
+
+					<f:facet name="footer">
+						<p:commandButton value="Login" update="growl"
+							action="#{cMB.seConnecterClient}"
+							oncomplete="handleLoginRequest(xhr, status, args)" />
+					</f:facet>
+				</h:panelGrid>
+			</p:dialog>
+		</h:form>
+	</div>
+
+	<!-- ============================ les produits  ============================ -->
+	<div>
+		<h:form>
+			<p:dataGrid var="pro" value="#{pMB.listeProduit}" columns="3"
+				layout="grid" rows="12" id="cat"
+				style="position:relative; bottom:100px;">
+
+				<f:facet name="header">
+            Produits disponibles
+        	</f:facet>
+
+				<p:panel header="#{pro.attCategorie.nomCategorie}"
+					style="text-align:center">
+					<h:panelGrid columns="1" style="width:100%">
+						<h:outputText value="#{pro.designation}" />
+
+						<p:commandLink update="proDetail"
+							oncomplete="PF('proDialog').show()" title="Détails">
+							<h:outputText styleClass="ui-icon ui-icon-search"
+								style="margin:0 auto;" />
+							<f:setPropertyActionListener value="#{pro}"
+								target="#{pMB.produit}" />
+						</p:commandLink>
+					</h:panelGrid>
+				</p:panel>
+			</p:dataGrid>
+		</h:form>
+
+		<p:dialog header="Info Produit" widgetVar="proDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false">
+			<p:outputPanel id="proDetail" style="text-align:center;">
+				<p:panelGrid columns="2" rendered="#{not empty pMB.produit}"
+					columnClasses="label,value">
+
+					<h:outputText value="Id produit :" />
+					<h:outputText value="#{pMB.produit.idProduit}" />
+
+					<h:outputText value="Description :" />
+					<h:outputText value="#{pMB.produit.description}" />
+
+					<h:outputText value="Prix :" />
+					<h:outputText value="#{pMB.produit.prix}" />
+
+					<h:outputText value="En stock :" />
+					<h:outputText value="#{pMB.produit.quantite}" />
+				</p:panelGrid>
+			</p:outputPanel>
+			<b><p:commandLink value="Ajouter au panier" style="color:#b32400"
+					type="button" action="seConnecter"
+					styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+					update="@all" /></b>
+		</p:dialog>
+	</div>
+
+</h:body>
+
+</html>

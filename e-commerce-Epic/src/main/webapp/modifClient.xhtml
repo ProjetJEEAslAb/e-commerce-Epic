@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+
+<h:head>
+	<title>Page Modif</title>
+	<h:outputStylesheet library="css" name="monCss.css"></h:outputStylesheet>
+</h:head>
+
+<h:body styleClass="flex">
+
+	<!-- tracer la ligne horizontale -->
+	<p:separator />
+
+	<!-- espacer les elements -->
+	<p:spacer height="20" />
+	<br />
+	<br />
+
+	<h1 style="color:#009999; text-align: center">
+		Formulaire de modification
+		<h:graphicImage value="resTest/tumblr_n7f383vqpW1r5iumyo1_1280.gif"
+			width="8%" length="8%"
+			style="position:relative; bottom:-20px;left:40px" />
+	</h1>
+
+	<h:form>
+		<h:panelGrid columns="2" styleClass="centered">
+
+			<p:outputLabel for="idId" value="Id: " />
+			<p:inputMask id="idId" value="#{cMB.client.id}" />
+
+			<p:outputLabel for="nomId" value="Nom: " />
+			<p:inputMask id="nomId" value="#{cMB.client.nom}" />
+
+			<p:outputLabel for="mailId" value="Identifiant: " />
+			<p:inputMask id="mailId" value="#{cMB.client.mail}" />
+
+			<p:outputLabel for="telephoneId" value="Telephone: " />
+			<p:inputMask id="telephoneId" value="#{cMB.client.tel}" />
+
+			<p:outputLabel for="passwordId" value="Password: " />
+			<p:inputMask id="passwordId" value="#{cMB.client.mdp}" />
+
+			<p:outputLabel for="confirmPasswordId" value="Confirmer Password: " />
+			<p:inputMask id="confirmPasswordId" value="#{cMB.client.mdp}" />
+
+
+			<p:commandButton value="modifer un client"
+				action="#{cMB.modifierClient}" icon="ui-icon-disk" />
+
+		</h:panelGrid>
+	</h:form>
+
+	<h4>
+		<h:messages style="color:red"></h:messages>
+	</h4>
+
+	<h:form>
+		<p:dock position="bottom">
+			<p:menuitem value="Accueil" icon="/resources/images/home.png"
+				url="accueilClient.xhtml" />
+			<p:menuitem value="Panier" icon="/resources/images/find.png"
+				url="panier.xhtml" />
+			<p:menuitem value="Acheter" icon="/resources/images/add.png"
+				url="ajouterLigneCommande.xhtml" />
+			<p:menuitem value="Modifier" icon="/resources/images/update.png"
+				url="modifClient.xhtml" />
+			<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
+				url="supClient.xhtml" />
+			<p:menuitem value="Logout" icon="/resources/images/logout.png"
+				action="#{cMB.seDeconnecterClient}" />
+		</p:dock>
+	</h:form>
+
+</h:body>
+
+</html>

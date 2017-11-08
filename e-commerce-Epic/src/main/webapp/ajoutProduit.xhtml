@@ -1,0 +1,84 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+	
+	
+<h:head>
+	<title>Page supProduit</title>
+</h:head>
+
+<h:body>
+
+<h:form>
+		<p:menubar>
+			<p:menuitem value="AccueilGeneral" url="accueilGeneral.xhtml" color="red" />
+			<p:menuitem value="supProduit" url="supProduit.xhtml" color="red" />
+			<p:menuitem value="ajoutProduit" url="#" color="red" />
+			
+		</p:menubar>	
+	</h:form>	
+	
+		<!-- tracer la ligne horizontale -->
+			<p:separator />
+			
+		<!-- espacer les elements -->
+			<p:spacer height="20" />
+		<br/>
+		<br/>
+
+	<h:form>
+		<p:commandButton value="Ajouter un produit a la ligne de commande" action="#{pMB.addProduitByLc}" icon="ui-icon-disk" update="@all"/>
+			<h:panelGrid columns="2" styleClass="centered">
+
+			<p:outputLabel for="idId" value="Id ligne de commande: " />
+			<p:inputMask id="idId" value="#{pMB.ligneCommande}" />
+			</h:panelGrid>
+	</h:form>
+<!-- tracer la ligne horizontale -->
+			<p:separator />
+			
+		<!-- espacer les elements -->
+			<p:spacer height="20" />
+		<br/>
+		<br/>
+<!-- =========================== Liste des produits =========================== -->
+		<h:form>
+			<p:dataTable id="ListeP" var="pro" value="#{pMB.listeProduit}" rowKey="#{pro.idProduit}" rowStyleClass="#{pro.quantite le 10 ? 'empty' : null}">
+
+				<p:column selectionMode="multiple" style="width:16px;text-align:center" />
+
+				<p:column headerText="ID" width="3%">
+					<h:outputText value="#{pro.idProduit}" />
+				</p:column>
+
+				<p:column headerText="Nom" filterBy="#{pro.designation}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pro.designation}" />
+				</p:column>
+
+				<p:column headerText="Description" filterBy="#{pro.description}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pro.description}" />
+				</p:column>
+
+				<p:column headerText="Prix" filterBy="#{pro.prix}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pro.prix}" />
+				</p:column>
+
+				<p:column headerText="Quantité" filterBy="#{pro.quantite}"
+					filterMatchMode="contains">
+					<h:outputText value="#{pro.quantite}" />
+				</p:column>
+
+			</p:dataTable>		
+		</h:form>
+</h:body>
+
+
+</html>

@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Page d'ajout</title>
+</h:head>
+
+<h:body>
+
+	<h:form>
+		<legend>Catégorie</legend>
+		<p:growl id="messages" autoUpdate="true" />
+		<h:panelGrid columns="2">
+
+			<p:outputLabel for="descId" value="Description : " />
+			<p:inputMask id="descId" value="#{catMB.categorie.description}"
+				required="true" />
+
+			<p:outputLabel for="nomId" value="Nom : " />
+			<p:inputMask id="nomId" value="#{catMB.categorie.nomCategorie}"
+				required="true" />
+
+			<p:commandButton styleClass="myButton" value="Ajouter"
+				action="#{catMB.addCategorie}" icon="ui-icon-circle-plus" />
+		</h:panelGrid>
+	</h:form>
+
+	<h:form>
+		<legend>Produit</legend>
+		<p:growl id="messages" autoUpdate="true" />
+		<h:panelGrid columns="2">
+
+			<p:outputLabel for="catId" value="ID Categorie : " />
+			<p:inputMask id="catId" value="#{pMB.idCategorie}" required="true" />
+
+			<p:outputLabel for="desiId" value="Désignation : " />
+			<p:inputMask id="desiId" value="#{pMB.produit.designation}"
+				required="true" />
+
+			<p:outputLabel for="descId" value="Description : " />
+			<p:inputMask id="descId" value="#{pMB.produit.description}"
+				required="true" />
+
+			<p:outputLabel for="prixId" value="Prix : " />
+			<p:inputMask id="prixId" value="#{pMB.produit.prix}" required="true" />
+
+			<p:outputLabel for="qteId" value="Quantité : " />
+			<p:inputMask id="qteId" value="#{pMB.produit.quantite}"
+				required="true" />
+
+			<p:commandButton styleClass="myButton" value="Ajouter"
+				action="#{pMB.addProduitByAgent}" icon="ui-icon-circle-plus" />
+		</h:panelGrid>
+	</h:form>
+
+<h:form>
+		<p:stack icon="/resources/images/stack.png" expanded="true">
+			<p:menuitem value="Accueil" icon="/resources/images/home.png"
+				url="accueilAgent.xhtml" />
+			<p:menuitem value="Ajouter" icon="/resources/images/add.png"
+				url="addAgent.xhtml" />
+			<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
+				url="deleteAgent.xhtml" />
+			<p:menuitem value="Chercher" icon="/resources/images/find.png"
+				url="findAgent.xhtml" />
+			<p:menuitem value="Modifier" icon="/resources/images/update.png"
+				url="updateAgent.xhtml" />
+			<p:menuitem value="Logout" icon="/resources/images/logout.png"
+				action="#{aMB.seDeconnecter}" />
+		</p:stack>
+	</h:form>
+
+</h:body>
+
+</html>

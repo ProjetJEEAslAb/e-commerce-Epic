@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Page login</title>
+</h:head>
+
+<h:body>
+
+	<h:form>
+		<p:growl id="messages" autoUpdate="true" />
+		<h:panelGrid columns="3">
+			<p:outputLabel for="Idcat" value="ID Catégorie : " />
+			<p:inputMask id="Idcat" value="#{catMB.categorie.idCategorie}"
+				required="false" size="5" />
+			<p:commandButton styleClass="myButton" icon="ui-icon-circle-minus"
+				action="#{catMB.getCategorieById}" update="@all" />
+		</h:panelGrid>
+	</h:form>
+
+	<p:dataTable id="ListeC" var="cat" value="#{catMB.categorie}"
+		rendered="#{catMB.indice}">
+
+		<p:column headerText="ID" width="3%">
+			<h:outputText value="#{cat.idCategorie}" />
+		</p:column>
+
+		<p:column headerText="Nom">
+			<h:outputText value="#{cat.nomCategorie}" />
+		</p:column>
+
+		<p:column headerText="Description">
+			<h:outputText value="#{cat.description}" />
+		</p:column>
+	</p:dataTable>
+
+	<h:form>
+		<p:stack icon="/resources/images/stack.png" expanded="true">
+			<p:menuitem value="Accueil" icon="/resources/images/home.png"
+				url="accueilAgent.xhtml" />
+			<p:menuitem value="Ajouter" icon="/resources/images/add.png"
+				url="addAgent.xhtml" />
+			<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
+				url="deleteAgent.xhtml" />
+			<p:menuitem value="Chercher" icon="/resources/images/find.png"
+				url="findAgent.xhtml" />
+			<p:menuitem value="Modifier" icon="/resources/images/update.png"
+				url="updateAgent.xhtml" />
+			<p:menuitem value="Logout" icon="/resources/images/logout.png"
+				action="#{aMB.seDeconnecter}" />
+		</p:stack>
+	</h:form>
+
+</h:body>
+
+</html>

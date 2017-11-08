@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Page login</title>
+</h:head>
+
+<h:body>
+
+	<!-- =========================== Liste des catégories =========================== -->
+
+	<h:form id="form">
+		<p:dataGrid var="cat" value="#{catMB.listeCategorie}" columns="3"
+			layout="grid" rows="12" paginator="true" id="cat"
+			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+			rowsPerPageTemplate="10,20,30">
+
+			<f:facet name="header">
+            Catégories disponibles
+        	</f:facet>
+
+			<p:panel header="#{cat.nomCategorie}" style="text-align:center">
+				<h:panelGrid columns="1" style="width:100%">
+					<h:outputText value="#{cat.description}" />
+
+					<p:commandLink update=":form:catDetail"
+						oncomplete="PF('catDialog').show()" title="Détails">
+						<h:outputText styleClass="ui-icon ui-icon-search"
+							style="margin:0 auto;" />
+						<f:setPropertyActionListener value="#{cat}"
+							target="#{catMB.categorie}" />
+					</p:commandLink>
+				</h:panelGrid>
+			</p:panel>
+
+		</p:dataGrid>
+
+		<p:dialog header="Info catégorie" widgetVar="catDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false"
+			draggable="true" width="300" position="center top">
+			<p:outputPanel id="catDetail" style="text-align:center;">
+				<p:panelGrid columns="2" rendered="#{not empty catMB.categorie}"
+					columnClasses="label,value">
+
+					<h:outputText value="Nom :" />
+					<h:outputText value="#{catMB.categorie.nomCategorie}" />
+
+					<h:outputText value="Description :" />
+					<h:outputText value="#{catMB.categorie.description}" />
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+
+	<p:spacer />
+
+	<!-- =========================== Liste des produits =========================== -->
+	<h:form>
+		<p:dataTable id="ListeP" var="pro"
+			value="#{sessionScope.produitListe}" rowKey="#{pro.idProduit}"
+			selection="#{pMB.produit}" selectionMode="single"
+			rowStyleClass="#{pro.quantite le 10 ? 'empty' : null}"
+			editable="true" widgetVar="cellPro">
+
+			<p:column headerText="ID" width="3%">
+				<h:outputText value="#{pro.idProduit}" />
+			</p:column>
+
+			<p:column headerText="Nom" filterBy="#{pro.designation}"
+				filterMatchMode="contains">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pro.designation}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pro.designation}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Description" filterBy="#{pro.description}"
+				filterMatchMode="contains">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pro.description}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pro.description}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Prix" filterBy="#{pro.prix}"
+				filterMatchMode="contains">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pro.prix}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pro.prix}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Quantité" filterBy="#{pro.quantite}"
+				filterMatchMode="contains">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pro.quantite}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pro.quantite}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Catégorie"
+				filterBy="#{pro.attCategorie.nomCategorie}"
+				filterMatchMode="contains">
+				<p:cellEditor>
+					<f:facet name="output">
+						<h:outputText value="#{pro.attCategorie.nomCategorie}" />
+					</f:facet>
+					<f:facet name="input">
+						<p:inputText value="#{pro.attCategorie.nomCategorie}" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
+			<p:column style="width:32px">
+				<p:rowEditor />
+			</p:column>
+		</p:dataTable>
+
+		<p:contextMenu for="ListeP">
+			<p:menuitem value="Voir" update="proDetail" icon="ui-icon-search"
+				oncomplete="PF('proDialog').show()" />
+			<p:menuitem value="Supprimer" update="ListeP" icon="ui-icon-close"
+				actionListener="#{pMB.deleteProduitByAgent}" />
+		</p:contextMenu>
+
+		<p:dialog header="Produit Info" widgetVar="proDialog" modal="true"
+			showEffect="fade" hideEffect="fade" resizable="false"
+			position="center top" draggable="true" width="300">
+			<p:outputPanel id="proDetail" style="text-align:center;">
+				<p:panelGrid columns="2" rendered="#{not empty pMB.produit}"
+					columnClasses="label,value">
+
+					<h:outputText value="Id:" />
+					<h:outputText value="#{pMB.produit.idProduit}" />
+
+					<h:outputText value="Nom" />
+					<h:outputText value="#{pMB.produit.designation}" />
+
+					<h:outputText value="Description" />
+					<h:outputText value="#{pMB.produit.description}" />
+
+					<h:outputText value="Prix" />
+					<h:outputText value="$#{pMB.produit.prix}" />
+
+					<h:outputText value="Quantité" />
+					<h:outputText value="$#{pMB.produit.quantite}" />
+
+					<h:outputText value="Catégorie" />
+					<h:outputText value="$#{pMB.produit.attCategorie.nomCategorie}" />
+				</p:panelGrid>
+			</p:outputPanel>
+		</p:dialog>
+	</h:form>
+
+	<!-- =========================== Menu panier =========================== -->
+	<h:form>
+		<p:stack icon="/resources/images/stack.png" expanded="true">
+			<p:menuitem value="Accueil" icon="/resources/images/home.png"
+				url="accueilAgent.xhtml" />
+			<p:menuitem value="Ajouter" icon="/resources/images/add.png"
+				url="addAgent.xhtml" />
+			<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
+				url="deleteAgent.xhtml" />
+			<p:menuitem value="Chercher" icon="/resources/images/find.png"
+				url="findAgent.xhtml" />
+			<p:menuitem value="Modifier" icon="/resources/images/update.png"
+				url="updateAgent.xhtml" />
+			<p:menuitem value="Logout" icon="/resources/images/logout.png"
+				action="#{aMB.seDeconnecter}" />
+		</p:stack>
+	</h:form>
+
+</h:body>
+
+</html>
