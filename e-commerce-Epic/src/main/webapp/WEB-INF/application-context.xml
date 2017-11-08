@@ -1,13 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
 
-	
+
+	<!-- activation de la detection des annotations d'injection : @Autowired, 
+		@value, @Resource et @inject -->
+	<context:annotation-config />
+
+	<!-- detection automatique des comosants (les beans : @component, @repository,@service,@controller) -->
+	<context:component-scan base-package="fr.adaming" />
+
+	<!-- localisation du fichier.properties classpath lui di que tu va le trouver 
+		dans java ressources -->
+	<context:property-placeholder location="classpath*:baseDonnees.properties" />
+
+	<!-- declaration (definition) du bean dataSource -->
+	<bean id="dataSourceBean"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.user}" />
+		<property name="password" value="${jdbc.mdp}" />
+	</bean>
+
+	<!-- declaration (definition) du bean sessionFactory -->
+	<bean id="sessionFactoryBean"
+		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+
+		<!-- injection de la dataSource -->
+		<property name="dataSource" ref="dataSourceBean" />
+
+		<!-- specifier les classes annoter par les annotations jpa :packagesToScan 
+			:va scanner le package ou il y a les annotations jpa -->
+		<property name="packagesToScan" value="fr.adaming.model"></property>
+		<property name="hibernateProperties">
+			<props>
+				<prop key="hibernate.dialect">${hb.dialect}</prop>
+				<prop key="hibernate.show_sql">${hb.sql}</prop>
+				<prop key="hibernate.hbm2ddl.auto">${hb.hbm2ddl}</prop>
+			</props>
+		</property>
+	</bean>
+
+	<!-- definition du bean transaction manager pour la gestion des transactions -->
+	<bean id="transactionManagerBean"
+		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+
+		<!-- injection d'une session factory -->
+		<property name="sessionFactory" ref="sessionFactoryBean"></property>
+	</bean>
+
+	<!-- activation de la detection des annotations des transactions: @Transactional -->
+	<tx:annotation-driven transaction-manager="transactionManagerBean" />
 
 
 </beans>

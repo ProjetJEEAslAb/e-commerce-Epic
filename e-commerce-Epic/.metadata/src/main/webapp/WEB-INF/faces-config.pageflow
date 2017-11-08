@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<pageflow:Pageflow xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:pageflow="http://www.sybase.com/suade/pageflow" id="pf15101600075830" configfile="/e-commerce-Epic/src/main/webapp/WEB-INF/faces-config.xml">
+  <nodes xsi:type="pageflow:PFPage" name="login.xhtml" id="pf15101601023381" referenceLink="//@navigationRule.0/@fromViewId|" outlinks="pf15101601023382 pf15101601023383" inlinks="pf15101601023382" path="/login.xhtml"/>
+  <nodes xsi:type="pageflow:PFPage" name="accueilGeneral.xhtml" id="pf15101601023384" referenceLink="//@navigationRule.0/@navigationCase.0/@toViewId|" inlinks="pf15101601023383" path="/accueilGeneral.xhtml"/>
+  <links id="pf15101601023382" target="pf15101601023381" source="pf15101601023381" outcome="echec"/>
+  <links id="pf15101601023383" target="pf15101601023384" source="pf15101601023381" outcome="succes"/>
+</pageflow:Pageflow>
