@@ -1,5 +1,6 @@
 package fr.adaming.managedBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -10,8 +11,7 @@ import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
-import fr.adaming.model.Agent;
-import fr.adaming.model.Categorie;
+
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
 import fr.adaming.model.LigneCommande;
@@ -21,15 +21,20 @@ import fr.adaming.service.ILigneCommandeService;
 import fr.adaming.service.IProduitService;
 
 @ManagedBean(name = "lcMB")
-@ViewScoped
-public class LigneCommandeManagedBean {
+
+public class LigneCommandeManagedBean implements Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// =======================================================================//
 	// injection dependance
-	@ManagedProperty(value = "#{lService}")
+	@ManagedProperty(value = "#{lcService}")
 	private ILigneCommandeService ligneCommandeService;
 	
-	@ManagedProperty(value = "#{pService}")
+	@ManagedProperty(value = "#{proService}")
 	private IProduitService prodService;
 	// =======================================================================//
 	// attributs
@@ -66,12 +71,30 @@ public class LigneCommandeManagedBean {
 	// =======================================================================//
 	// getters et setters
 
-	public ILigneCommandeService getLigneCommandeService() {
-		return ligneCommandeService;
-	}
+
 
 	public void setLigneCommandeService(ILigneCommandeService ligneCommandeService) {
 		this.ligneCommandeService = ligneCommandeService;
+	}
+
+	public Commande getCommande() {
+		return commande;
+	}
+
+	public void setCommande(Commande commande) {
+		this.commande = commande;
+	}
+
+	public Client getClient() {
+		return client;
+	}
+
+	public void setClient(Client client) {
+		this.client = client;
+	}
+
+	public void setProdService(IProduitService prodService) {
+		this.prodService = prodService;
 	}
 
 	public Panier getAttPanier() {

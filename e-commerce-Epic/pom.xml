@@ -7,11 +7,11 @@
 	<packaging>war</packaging>
 
 
-<properties>
-  	<spring-version>4.1.9.RELEASE</spring-version>
-  	<hibernate-version>4.2.21.Final</hibernate-version>
-  </properties>
-  
+	<properties>
+		<spring-version>4.1.9.RELEASE</spring-version>
+		<hibernate-version>4.2.21.Final</hibernate-version>
+	</properties>
+
 	<!-- les dependances spring -->
 
 	<dependencies>
@@ -128,8 +128,26 @@
 			<version>3.1.0</version>
 			<scope>provided</scope>
 		</dependency>
+
+		<!-- ==========================les themes primefaces ====================================== -->
+
+		<!-- org.primefaces.themes/humanity -->
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>humanity</artifactId>
+			<version>1.0.9</version>
+		</dependency>
+
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>Prime Repo</name>
+			<url>http://repository.primefaces.org</url>
+		</repository>
+	</repositories>
+	
 	<!-- forcer maven a compilé ave le compilateur java 8 -->
 
 	<build>

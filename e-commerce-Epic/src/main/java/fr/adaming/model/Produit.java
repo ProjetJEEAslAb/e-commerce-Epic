@@ -14,6 +14,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name="produits")
 public class Produit implements Serializable {
@@ -50,6 +53,7 @@ public class Produit implements Serializable {
 	
 	//association avec plusieurs ligne de commandes
 	@OneToMany(mappedBy="attProduit",fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<LigneCommande> ligneCommande;
 	
 	// ============ 2. Constructeurs ============

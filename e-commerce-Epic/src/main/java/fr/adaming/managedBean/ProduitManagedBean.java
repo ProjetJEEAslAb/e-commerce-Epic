@@ -22,15 +22,20 @@ import fr.adaming.service.ICategorieService;
 import fr.adaming.service.IProduitService;
 
 @ManagedBean(name = "pMB")
-@ViewScoped
+
 public class ProduitManagedBean implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// =======================================================================//
 	// injection dependance
-	@ManagedProperty(value = "#{pService}")
+	@ManagedProperty(value = "#{proService}")
 	private IProduitService produitService;
 	
-	@ManagedProperty(value = "#{caService}")
+	@ManagedProperty(value = "#{catService}")
 	private ICategorieService categorieService;
 
 	// =======================================================================//
@@ -84,17 +89,11 @@ public class ProduitManagedBean implements Serializable {
 	// =======================================================================//
 	// getters et setters
 
-	public IProduitService getProduitService() {
-		return produitService;
-	}
 
 	public void setProduitService(IProduitService produitService) {
 		this.produitService = produitService;
 	}
 
-	public ICategorieService getCategorieService() {
-		return categorieService;
-	}
 
 	public void setCategorieService(ICategorieService categorieService) {
 		this.categorieService = categorieService;

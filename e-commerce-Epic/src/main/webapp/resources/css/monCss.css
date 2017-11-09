@@ -1,0 +1,25 @@
+@CHARSET "ISO-8859-1";
+
+.banniere {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-around;
+	height: 200px;
+}
+
+.flex {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	background-color:#fff2e6;
+}
+
+h1{
+	font-size:60px;
+	
+	
+}
+
+
+	
+	

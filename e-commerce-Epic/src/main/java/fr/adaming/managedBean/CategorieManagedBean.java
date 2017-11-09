@@ -21,6 +21,11 @@ import fr.adaming.service.ICategorieService;
 @RequestScoped
 public class CategorieManagedBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	// ============ 1. Injection de dépendance Service ============
 	@ManagedProperty(value = "#{catService}")
 	private ICategorieService categorieService;
@@ -62,9 +67,6 @@ public class CategorieManagedBean implements Serializable {
 	}
 
 	// ============ 4. Getters et Setters ============
-	public ICategorieService getCategorieService() {
-		return categorieService;
-	}
 
 	public void setCategorieService(ICategorieService categorieService) {
 		this.categorieService = categorieService;

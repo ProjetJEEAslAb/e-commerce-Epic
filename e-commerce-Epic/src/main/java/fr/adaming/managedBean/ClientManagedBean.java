@@ -3,7 +3,7 @@ package fr.adaming.managedBean;
 import java.io.Serializable;
 import java.util.List;
 
-
+import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
@@ -24,13 +24,18 @@ public class ClientManagedBean implements Serializable {
 
 	// injection des dependances service
 
-	@ManagedProperty(value = "#{cService}")
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@ManagedProperty(value = "#{clService}")
 	private IClientService clientService;
-	
-	@ManagedProperty(value = "#{pService}")
+
+	@ManagedProperty(value = "#{proService}")
 	private IProduitService produitService;
 
-//=======================================================================//
+	// =======================================================================//
 
 	// les attributs utilisés dans la page
 
@@ -38,7 +43,7 @@ public class ClientManagedBean implements Serializable {
 	HttpSession session;
 	private List<Produit> listeProduits;
 
-//=======================================================================//
+	// =======================================================================//
 
 	// Constructeur vide
 	public ClientManagedBean() {
@@ -46,9 +51,9 @@ public class ClientManagedBean implements Serializable {
 									// target unreachable;
 	}
 
-// =======================================================================//
+	// =======================================================================//
 	// creation de la session client
-
+	@PostConstruct
 	public void sessionClient() {
 
 		// recuperation du context
@@ -62,11 +67,15 @@ public class ClientManagedBean implements Serializable {
 
 	}
 
-//=======================================================================//
+	// =======================================================================//
 	// getters et setters
 
 	public List<Produit> getListeProduits() {
 		return listeProduits;
+	}
+
+	public void setProduitService(IProduitService produitService) {
+		this.produitService = produitService;
 	}
 
 	public void setListeProduits(List<Produit> listeProduits) {
@@ -109,7 +118,7 @@ public class ClientManagedBean implements Serializable {
 		}
 		return "accueilGeneral";
 	}
-	
+
 	public String seConnecterClientPanier() {
 
 		try {

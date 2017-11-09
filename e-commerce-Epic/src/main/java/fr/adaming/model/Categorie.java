@@ -15,6 +15,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 @Entity
 @Table(name="categories")
 public class Categorie implements Serializable {
@@ -32,6 +35,7 @@ public class Categorie implements Serializable {
 	
 	// Association UML avec plusieurs Produit
 	@OneToMany(mappedBy="attCategorie", cascade=CascadeType.REMOVE)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Produit> listeProduits;
 	
 	// Association avec un seul Agent

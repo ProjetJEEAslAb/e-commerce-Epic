@@ -9,13 +9,21 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
+
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "agents")
 public class Agent implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	// ============ 1. Attributs ============
 	@Id
@@ -30,10 +38,12 @@ public class Agent implements Serializable {
 
 	// Association avec plusieurs Categorie
 	@OneToMany(mappedBy = "attAgent", fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Categorie> listeCategorie;
 
 	// Association avec plusieurs Produit
 	@OneToMany(mappedBy = "attAgent", fetch=FetchType.EAGER)
+	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Produit> listeProduit;
 
 	// ============ 2. Constructeurs ============
