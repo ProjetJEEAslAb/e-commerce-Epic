@@ -3,9 +3,10 @@ package fr.adaming.managedBean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.EJB;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.persistence.Table;
@@ -21,14 +22,15 @@ import fr.adaming.service.IProduitService;
 @RequestScoped
 public class ClientManagedBean implements Serializable {
 
-	// injection des dependances
+	// injection des dependances service
 
-	@EJB
+	@ManagedProperty(value = "#{cService}")
 	private IClientService clientService;
-	@EJB
+	
+	@ManagedProperty(value = "#{pService}")
 	private IProduitService produitService;
 
-	// =======================================================================//
+//=======================================================================//
 
 	// les attributs utilisés dans la page
 
@@ -36,7 +38,7 @@ public class ClientManagedBean implements Serializable {
 	HttpSession session;
 	private List<Produit> listeProduits;
 
-	// =======================================================================//
+//=======================================================================//
 
 	// Constructeur vide
 	public ClientManagedBean() {
@@ -44,7 +46,7 @@ public class ClientManagedBean implements Serializable {
 									// target unreachable;
 	}
 
-	// =======================================================================//
+// =======================================================================//
 	// creation de la session client
 
 	public void sessionClient() {
@@ -60,8 +62,7 @@ public class ClientManagedBean implements Serializable {
 
 	}
 
-	// =======================================================================//
-
+//=======================================================================//
 	// getters et setters
 
 	public List<Produit> getListeProduits() {
@@ -163,9 +164,9 @@ public class ClientManagedBean implements Serializable {
 	public String modifierClient() {
 
 		// appelle de la methode pour modifier un client
-		int clientOut = clientService.updateClient(this.client);
+		Client clientOut = clientService.updateClient(this.client);
 
-		if (clientOut == 1) {
+		if (clientOut != null) {
 
 			return "accueilClient";
 

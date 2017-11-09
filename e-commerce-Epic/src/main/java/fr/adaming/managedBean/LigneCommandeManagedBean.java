@@ -3,9 +3,9 @@ package fr.adaming.managedBean;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -26,9 +26,10 @@ public class LigneCommandeManagedBean {
 
 	// =======================================================================//
 	// injection dependance
-	@EJB
+	@ManagedProperty(value = "#{lService}")
 	private ILigneCommandeService ligneCommandeService;
-	@EJB
+	
+	@ManagedProperty(value = "#{pService}")
 	private IProduitService prodService;
 	// =======================================================================//
 	// attributs

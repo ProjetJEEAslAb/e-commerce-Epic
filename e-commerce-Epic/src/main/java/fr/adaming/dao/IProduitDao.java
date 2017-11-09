@@ -1,13 +1,14 @@
-package fr.adaming.service;
+package fr.adaming.dao;
 
 import java.util.List;
 
 import fr.adaming.model.Agent;
 import fr.adaming.model.Produit;
 
-public interface IProduitService {
+public interface IProduitDao {
 
-	public List<Produit> GetAllProduits();
+public List<Produit> GetAllProduits();
+	
 	public Produit getProduitById(Produit pro);
 	public int deleteProduit (Produit pro);
 	public Produit addProduitByLc(Produit pro);
@@ -27,5 +28,6 @@ public interface IProduitService {
 
 	// TODO getAllProduit
 	public List<Produit> getAllProduitByAgent(Agent a);
+		
 	
 }

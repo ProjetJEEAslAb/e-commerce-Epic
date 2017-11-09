@@ -5,9 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
@@ -26,9 +27,10 @@ public class ProduitManagedBean implements Serializable {
 
 	// =======================================================================//
 	// injection dependance
-	@EJB
+	@ManagedProperty(value = "#{pService}")
 	private IProduitService produitService;
-	@EJB
+	
+	@ManagedProperty(value = "#{caService}")
 	private ICategorieService categorieService;
 
 	// =======================================================================//
@@ -279,122 +281,122 @@ public class ProduitManagedBean implements Serializable {
 
 	// ==================== Méthodes Agent ====================
 
-	// TODO getProduitById
-	public String getProduitByIdByAgent() {
+//	// TODO getProduitById
+//	public String getProduitByIdByAgent() {
+//
+//		// Récupérer l'agent de la session
+//		this.agent = (Agent) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agentSession");
+//
+//		try {
+//
+//			this.produit = produitService.getProduitByIdByAgent(this.produit, this.agent);
+//
+//			this.indice = true;
+//
+//			return "findAgent";
+//
+//		} catch (Exception e) {
+//
+//			this.indice = false;
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Le produit n'existe pas"));
+//			return "findAgent";
+//
+//		}
+//
+//	}
+//
+//	// TODO addProduit
+//	public String addProduitByAgent() {
+//
+//		// Récupérer l'agent de la session
+//		this.agent = (Agent) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agentSession");
+//
+//		try {
+//			// Ajouter les informations dans this.produit
+//			Categorie catAjout = new Categorie();
+//			catAjout.setIdCategorie(this.idCategorie);
+//			this.produit.setAttAgent(this.agent);
+//			this.produit.setAttCategorie(catAjout);
+//			this.produit = produitService.addProduitByAgent(this.produit);
+//
+//			// Actualiser la liste à afficher
+//			List<Produit> liste = produitService.getAllProduitByAgent(this.agent);
+//			agentSession.setAttribute("produitListe", liste);
+//
+//			return "accueilAgent";
+//
+//		} catch (Exception e) {
+//
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("L'ajout a échoué"));
+//			return "addAgent";
+//
+//		}
+//
+//	}
+//
+//	// TODO deleteProduit
+//	public String deleteProduitByAgent() {
+//
+//		// Récupérer l'agent de la session
+//		this.agent = (Agent) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agentSession");
+//
+//		try {
+//			// Trouver la catégorie à supprimer
+//			Produit proDel = produitService.getProduitByIdByAgent(this.produit, this.agent);
+//
+//			// Supprimer la catégorie retrouvée
+//			produitService.deleteProduitByAgent(proDel, this.agent);
+//
+//			// Actualiser la liste à afficher
+//			List<Produit> liste = produitService.getAllProduitByAgent(this.agent);
+//			agentSession.setAttribute("produitListe", liste);
+//
+//			return "accueilAgent";
+//
+//		} catch (Exception e) {
+//
+//			// FacesContext.getCurrentInstance().addMessage(null, new
+//			// FacesMessage("La suppression a échoué"));
+//			return "deleteAgent";
+//
+//		}
+//
+//	}
+//
+//	// TODO updateProduit
+//	public String updateProduitByAgent() {
+//
+//		// Récupérer l'agent de la session
+//		this.agent = (Agent) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agentSession");
+//		Categorie catUp = new Categorie();
+//		catUp.setIdCategorie(this.idCategorie);
+//
+//		try {
+//			// Trouver le produit à modifier
+//			Produit proUp = produitService.getProduitByIdByAgent(this.produit, this.agent);
+//
+//			// Modifier la catégorie retrouvée
+//			proUp.setDesignation(this.produit.getDesignation());
+//			proUp.setDescription(this.produit.getDescription());
+//			proUp.setPrix(this.produit.getPrix());
+//			proUp.setQuantite(this.produit.getQuantite());
+//			proUp.setAttCategorie(catUp);
+//
+//			produitService.updateProduitByAgent(proUp);
+//
+//			// Actualiser la liste à afficher
+//			List<Produit> liste = produitService.GetAllProduits();
+//			agentSession.setAttribute("produitListe", liste);
+//
+//			return "accueilAgent";
+//
+//		} catch (Exception e) {
+//
+//			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La modification a échoué"));
+//			return "updateAgent";
+//
+//		}
 
-		// Récupérer l'agent de la session
-		this.agent = (Agent) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agentSession");
-
-		try {
-
-			this.produit = produitService.getProduitByIdByAgent(this.produit, this.agent);
-
-			this.indice = true;
-
-			return "findAgent";
-
-		} catch (Exception e) {
-
-			this.indice = false;
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Le produit n'existe pas"));
-			return "findAgent";
-
-		}
-
-	}
-
-	// TODO addProduit
-	public String addProduitByAgent() {
-
-		// Récupérer l'agent de la session
-		this.agent = (Agent) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agentSession");
-
-		try {
-			// Ajouter les informations dans this.produit
-			Categorie catAjout = new Categorie();
-			catAjout.setIdCategorie(this.idCategorie);
-			this.produit.setAttAgent(this.agent);
-			this.produit.setAttCategorie(catAjout);
-			this.produit = produitService.addProduitByAgent(this.produit);
-
-			// Actualiser la liste à afficher
-			List<Produit> liste = produitService.getAllProduitByAgent(this.agent);
-			agentSession.setAttribute("produitListe", liste);
-
-			return "accueilAgent";
-
-		} catch (Exception e) {
-
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("L'ajout a échoué"));
-			return "addAgent";
-
-		}
-
-	}
-
-	// TODO deleteProduit
-	public String deleteProduitByAgent() {
-
-		// Récupérer l'agent de la session
-		this.agent = (Agent) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agentSession");
-
-		try {
-			// Trouver la catégorie à supprimer
-			Produit proDel = produitService.getProduitByIdByAgent(this.produit, this.agent);
-
-			// Supprimer la catégorie retrouvée
-			produitService.deleteProduitByAgent(proDel, this.agent);
-
-			// Actualiser la liste à afficher
-			List<Produit> liste = produitService.getAllProduitByAgent(this.agent);
-			agentSession.setAttribute("produitListe", liste);
-
-			return "accueilAgent";
-
-		} catch (Exception e) {
-
-			// FacesContext.getCurrentInstance().addMessage(null, new
-			// FacesMessage("La suppression a échoué"));
-			return "deleteAgent";
-
-		}
-
-	}
-
-	// TODO updateProduit
-	public String updateProduitByAgent() {
-
-		// Récupérer l'agent de la session
-		this.agent = (Agent) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("agentSession");
-		Categorie catUp = new Categorie();
-		catUp.setIdCategorie(this.idCategorie);
-
-		try {
-			// Trouver le produit à modifier
-			Produit proUp = produitService.getProduitByIdByAgent(this.produit, this.agent);
-
-			// Modifier la catégorie retrouvée
-			proUp.setDesignation(this.produit.getDesignation());
-			proUp.setDescription(this.produit.getDescription());
-			proUp.setPrix(this.produit.getPrix());
-			proUp.setQuantite(this.produit.getQuantite());
-			proUp.setAttCategorie(catUp);
-
-			produitService.updateProduitByAgent(proUp);
-
-			// Actualiser la liste à afficher
-			List<Produit> liste = produitService.GetAllProduits();
-			agentSession.setAttribute("produitListe", liste);
-
-			return "accueilAgent";
-
-		} catch (Exception e) {
-
-			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("La modification a échoué"));
-			return "updateAgent";
-
-		}
-
-	}
+//	}
 
 }
