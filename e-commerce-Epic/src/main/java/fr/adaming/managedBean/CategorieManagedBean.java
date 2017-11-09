@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
@@ -21,7 +22,7 @@ import fr.adaming.service.ICategorieService;
 public class CategorieManagedBean implements Serializable {
 
 	// ============ 1. Injection de dépendance Service ============
-	@EJB
+	@ManagedProperty(value = "#{catService}")
 	private ICategorieService categorieService;
 
 	// ============ 2. Attributs ============
@@ -56,7 +57,7 @@ public class CategorieManagedBean implements Serializable {
 		this.agentSession = (HttpSession) context.getExternalContext().getSession(false);
 		// Récupération de l'agent à partir de la session
 		this.agent = (Agent) agentSession.getAttribute("agentSession");
-		this.listeCategorie = categorieService.getAllCategorie(this.agent);
+		this.listeCategorie = categorieService.getAllCategorie();
 
 	}
 
@@ -127,7 +128,7 @@ public class CategorieManagedBean implements Serializable {
 
 		try {
 
-			this.categorie = categorieService.getCategorieById(this.categorie, this.agent);
+			this.categorie = categorieService.getCategorieById(this.categorie);
 
 			this.indice = true;
 
@@ -157,7 +158,7 @@ public class CategorieManagedBean implements Serializable {
 			this.categorie = categorieService.addCategorie(this.categorie);
 
 			// Actualiser la liste à afficher
-			List<Categorie> liste = categorieService.getAllCategorie(this.agent);
+			List<Categorie> liste = categorieService.getAllCategorie();
 			agentSession.setAttribute("categorieListe", liste);
 
 			return "accueilAgent";
@@ -181,13 +182,13 @@ public class CategorieManagedBean implements Serializable {
 
 		try {
 			// Trouver la catégorie à supprimer
-			Categorie catDel = categorieService.getCategorieById(this.categorie, this.agent);
+			Categorie catDel = categorieService.getCategorieById(this.categorie);
 
 			// Supprimer la catégorie retrouvée
-			categorieService.deleteCategorie(catDel, this.agent);
+			categorieService.deleteCategorie(catDel);
 
 			// Actualiser la liste à afficher
-			List<Categorie> liste = categorieService.getAllCategorie(this.agent);
+			List<Categorie> liste = categorieService.getAllCategorie();
 			agentSession.setAttribute("categorieListe", liste);
 
 			return "accueilAgent";
@@ -211,16 +212,16 @@ public class CategorieManagedBean implements Serializable {
 
 		try {
 			// Trouver la catégorie à modifier
-			Categorie catUp = categorieService.getCategorieById(this.categorie, this.agent);
+			Categorie catUp = categorieService.getCategorieById(this.categorie);
 
 			// Modifier la catégorie retrouvée
 			catUp.setNomCategorie(this.categorie.getNomCategorie());
 			catUp.setDescription(this.categorie.getDescription());
 
-			categorieService.updateCategorie(catUp, this.agent);
+			categorieService.updateCategorie(catUp);
 
 			// Actualiser la liste à afficher
-			List<Categorie> liste = categorieService.getAllCategorie(this.agent);
+			List<Categorie> liste = categorieService.getAllCategorie();
 			agentSession.setAttribute("categorieListe", liste);
 
 			return "accueilAgent";

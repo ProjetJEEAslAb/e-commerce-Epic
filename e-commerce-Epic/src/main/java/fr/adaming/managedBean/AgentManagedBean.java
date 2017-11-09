@@ -3,10 +3,10 @@ package fr.adaming.managedBean;
 import java.io.Serializable;
 import java.util.List;
 
-import javax.ejb.EJB;
-import javax.enterprise.context.RequestScoped;
+import javax.faces.bean.RequestScoped;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.context.FacesContext;
 
 import fr.adaming.model.Agent;
@@ -20,9 +20,10 @@ import fr.adaming.service.ICategorieService;
 public class AgentManagedBean implements Serializable {
 
 	// ============ 1. Injection de dépendance Service ============
-	@EJB
+	@ManagedProperty(value = "#{aService}")
 	private IAgentService agentService;
-	@EJB
+	
+	@ManagedProperty(value = "#{catService}")
 	private ICategorieService categorieService;
 
 	// ============ 2. Attributs ============
