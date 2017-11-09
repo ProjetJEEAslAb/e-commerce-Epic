@@ -12,132 +12,73 @@
 
 <h:body>
 
-	<!-- =========================== Liste des catégories =========================== -->
+	<!-- =========================== Liste des catégories en tableau =========================== -->
 
-	<h:form id="form">
-		<p:dataGrid var="cat" value="#{catMB.listeCategorie}" columns="3"
-			layout="grid" rows="12" paginator="true" id="cat"
-			paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-			rowsPerPageTemplate="10,20,30">
-
-			<f:facet name="header">
-            Catégories disponibles
-        	</f:facet>
-
-			<p:panel header="#{cat.nomCategorie}" style="text-align:center">
-				<h:panelGrid columns="1" style="width:100%">
-					<h:outputText value="#{cat.description}" />
-
-					<p:commandLink update=":form:catDetail"
-						oncomplete="PF('catDialog').show()" title="Détails">
-						<h:outputText styleClass="ui-icon ui-icon-search"
-							style="margin:0 auto;" />
-						<f:setPropertyActionListener value="#{cat}"
-							target="#{catMB.categorie}" />
-					</p:commandLink>
-				</h:panelGrid>
-			</p:panel>
-
-		</p:dataGrid>
-
-		<p:dialog header="Info catégorie" widgetVar="catDialog" modal="true"
-			showEffect="fade" hideEffect="fade" resizable="false"
-			draggable="true" width="300" position="center top">
-			<p:outputPanel id="catDetail" style="text-align:center;">
-				<p:panelGrid columns="2" rendered="#{not empty catMB.categorie}"
-					columnClasses="label,value">
-
-					<h:outputText value="Nom :" />
-					<h:outputText value="#{catMB.categorie.nomCategorie}" />
-
-					<h:outputText value="Description :" />
-					<h:outputText value="#{catMB.categorie.description}" />
-				</p:panelGrid>
-			</p:outputPanel>
-		</p:dialog>
-	</h:form>
-
-	<p:spacer />
-
-	<!-- =========================== Liste des produits =========================== -->
 	<h:form>
-		<p:dataTable id="ListeP" var="pro"
-			value="#{sessionScope.produitListe}" rowKey="#{pro.idProduit}"
-			selection="#{pMB.produit}" selectionMode="single"
-			emptyMessage="Pas de produit trouvé" editable="true"
-			widgetVar="cellPro" filteredValue="#{pMB.listeProduit}">
 
-			<p:ajax event="rowEdit" listener="#{eMB.onRowEdit}" update="@all" />
+		<p:growl id="messages" autoUpdate="true" />
+
+		<p:dataTable id="listeCategorie" var="cat"
+			value="#{catMB.listeCategorie}" styleClass="tableau" editable="true"
+			widgetVar="tabCat" rowKey="#{cat.idCategorie}"
+			selection="#{catMB.categorie}" selectionMode="single"
+			emptyMessage="Pas de catégorie trouvée"
+			filteredValue="#{catMB.selectedCategories}">
+
+			<p:ajax event="rowEdit" listener="#{catMB.onRowEditCategorie}"
+				update="@all" />
 
 			<f:facet name="header">
 				<p:outputPanel>
-					<h:outputText value="Recherche :" />
-					<p:inputText id="globalFilter" onkeyup="PF('cellPro').filter()"
+					<h:outputText value="Rechercher :" />
+					<p:inputText id="globalFilter" onkeyup="PF('tabCat').filter()"
 						style="width:150px" placeholder="Mot-clé" />
 				</p:outputPanel>
 			</f:facet>
 
-			<p:column headerText="ID" width="3%">
-				<h:outputText value="#{pro.idProduit}" />
-			</p:column>
-
-			<p:column headerText="Nom" filterBy="#{pro.designation}"
-				filterMatchMode="contains">
+			<p:column headerText="ID">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{pro.designation}" />
+						<h:outputText id="IdOut" value="#{cat.idCategorie}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{pro.designation}" />
+						<p:inputText id="Id" value="#{cat.idCategorie}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Description" filterBy="#{pro.description}"
+			<p:column headerText="Nom" filterBy="#{cat.nomCategorie}"
 				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{pro.description}" />
+						<h:outputText value="#{cat.nomCategorie}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{pro.description}" />
+						<p:inputText id="Nom" value="#{cat.nomCategorie}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Prix" filterBy="#{pro.prix}"
+			<p:column headerText="Description" filterBy="#{cat.description}"
 				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{pro.prix}" />
+						<h:outputText value="#{cat.description}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{pro.prix}" />
+						<p:inputText id="Description" value="#{cat.description}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Quantité" filterBy="#{pro.quantite}"
+			<p:column headerText="Responsable" filterBy="#{cat.attAgent.id}"
 				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{pro.quantite}" />
+						<h:outputText value="#{cat.attAgent.id}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText value="#{pro.quantite}" />
-					</f:facet>
-				</p:cellEditor>
-			</p:column>
-
-			<p:column headerText="Catégorie"
-				filterBy="#{pro.attCategorie.nomCategorie}"
-				filterMatchMode="contains">
-				<p:cellEditor>
-					<f:facet name="output">
-						<h:outputText value="#{pro.attCategorie.nomCategorie}" />
-					</f:facet>
-					<f:facet name="input">
-						<p:inputText value="#{pro.attCategorie.nomCategorie}" />
+						<p:inputText id="Responsable" value="#{cat.attAgent.id}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
@@ -145,44 +86,63 @@
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
+
 		</p:dataTable>
 
-		<p:contextMenu for="ListeP" widgetVar="cMenu">
-			<p:menuitem value="Voir" update="proDetail" icon="ui-icon-search"
-				oncomplete="PF('proDialog').show()" />
-			<p:menuitem value="Supprimer" update="ListeP" icon="ui-icon-circle-minus"
-				actionListener="#{pMB.deleteProduitByAgent}" />
+		<p:contextMenu for="listeCategorie" widgetVar="cMenu">
+			<p:menuitem value="Supprimer" update="listeCategorie"
+				icon="ui-icon-circle-minus"
+				actionListener="#{catMB.deleteCategorie}" />
+			<p:menuitem value="Voir" update="catDetail" icon="ui-icon-search"
+				oncomplete="PF('catDialog').show()" />
+			<p:menuitem value="Ajouter" icon="ui-icon-circle-plus"
+				onclick="PF('addDialog').show()" />
 			<p:menuitem value="Cacher" icon="ui-icon-close"
 				onclick="PF('cMenu').hide()" />
 		</p:contextMenu>
 
-		<p:dialog header="Produit Info" widgetVar="proDialog" modal="true"
+		<p:dialog header="Catégorie" widgetVar="catDialog" modal="true"
 			showEffect="fade" hideEffect="fade" resizable="false"
 			position="center top" draggable="true" width="300">
-			<p:outputPanel id="proDetail" style="text-align:center;">
-				<p:panelGrid columns="2" rendered="#{not empty pMB.produit}"
+			<p:outputPanel id="catDetail" style="text-align:center;">
+				<p:panelGrid columns="2" rendered="#{not empty catMB.categorie}"
 					columnClasses="label,value">
 
 					<h:outputText value="Id:" />
-					<h:outputText value="#{pMB.produit.idProduit}" />
+					<h:outputText value="#{catMB.categorie.idCategorie}" />
 
 					<h:outputText value="Nom" />
-					<h:outputText value="#{pMB.produit.designation}" />
+					<h:outputText value="#{catMB.categorie.nomCategorie}" />
 
 					<h:outputText value="Description" />
-					<h:outputText value="#{pMB.produit.description}" />
+					<h:outputText value="#{catMB.categorie.description}" />
 
-					<h:outputText value="Prix" />
-					<h:outputText value="$#{pMB.produit.prix}" />
+					<h:outputText value="Responsable" />
+					<h:outputText value="#{catMB.categorie.attAgent.id}" />
 
-					<h:outputText value="Quantité" />
-					<h:outputText value="$#{pMB.produit.quantite}" />
-
-					<h:outputText value="Catégorie" />
-					<h:outputText value="$#{pMB.produit.attCategorie.nomCategorie}" />
 				</p:panelGrid>
 			</p:outputPanel>
 		</p:dialog>
+
+		<p:dialog header="Ajout de Catégorie" widgetVar="addDialog"
+			resizable="false">
+			<h:panelGrid columns="2" cellpadding="5">
+				<p:inputText id="nom" value="#{catMB.categorie.nomCategorie}"
+					required="true" label="Nom" />
+				<p:watermark for="nom" value="Nom" />
+
+				<p:inputText id="desc" value="#{catMB.categorie.description}"
+					required="false" label="Description" />
+				<p:watermark for="desc" value="Description" />
+
+				<f:facet name="footer">
+					<p:commandButton value="Ajouter"
+						action="#{catMB.addCategorie}"
+						oncomplete="PF('addDialog').hide()" update="@all" />
+				</f:facet>
+			</h:panelGrid>
+		</p:dialog>
+
 	</h:form>
 
 	<!-- =========================== Menu panier =========================== -->

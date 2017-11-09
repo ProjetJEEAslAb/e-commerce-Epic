@@ -34,7 +34,7 @@ public class Categorie implements Serializable {
 	private String description;
 	
 	// Association UML avec plusieurs Produit
-	@OneToMany(mappedBy="attCategorie", cascade=CascadeType.REMOVE)
+	@OneToMany(mappedBy="attCategorie", cascade=CascadeType.REMOVE, fetch=FetchType.EAGER)
 	@Fetch(value = FetchMode.SUBSELECT)
 	private List<Produit> listeProduits;
 	

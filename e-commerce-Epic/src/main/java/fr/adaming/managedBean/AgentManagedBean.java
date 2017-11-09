@@ -44,9 +44,6 @@ public class AgentManagedBean implements Serializable {
 
 	// ============ 4. Getters et Setters ============
 
-
-
-
 	public Agent getAgent() {
 		return agent;
 	}

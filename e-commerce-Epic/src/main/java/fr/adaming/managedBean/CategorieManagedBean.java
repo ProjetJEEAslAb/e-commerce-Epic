@@ -13,6 +13,8 @@ import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import org.primefaces.event.RowEditEvent;
+
 import fr.adaming.model.Agent;
 import fr.adaming.model.Categorie;
 import fr.adaming.service.ICategorieService;
@@ -42,6 +44,7 @@ public class CategorieManagedBean implements Serializable {
 	private boolean indice = false;
 
 	// Sélection
+	private List<Categorie> selectedCategories;
 	private Categorie selectedCategorie;
 
 	// ============ 3. Constructeur vide ============
@@ -120,6 +123,14 @@ public class CategorieManagedBean implements Serializable {
 		this.selectedCategorie = selectedCategorie;
 	}
 
+	public List<Categorie> getSelectedCategories() {
+		return selectedCategories;
+	}
+
+	public void setSelectedCategories(List<Categorie> selectedCategories) {
+		this.selectedCategories = selectedCategories;
+	}
+
 	// ============ 5. Méthodes ============
 
 	// TODO getCategorieById
@@ -146,8 +157,6 @@ public class CategorieManagedBean implements Serializable {
 
 	}
 
-	
-
 	// TODO addCategorie
 	public String addCategorie() {
 
@@ -160,8 +169,9 @@ public class CategorieManagedBean implements Serializable {
 			this.categorie = categorieService.addCategorie(this.categorie);
 
 			// Actualiser la liste à afficher
-			List<Categorie> liste = categorieService.getAllCategorie();
-			agentSession.setAttribute("categorieListe", liste);
+			this.listeCategorie = categorieService.getAllCategorie();
+			// List<Categorie> liste = categorieService.getAllCategorie();
+			agentSession.setAttribute("categorieListe", this.listeCategorie);
 
 			return "accueilAgent";
 
@@ -173,8 +183,6 @@ public class CategorieManagedBean implements Serializable {
 		}
 
 	}
-
-	
 
 	// TODO deleteCategorie
 	public String deleteCategorie() {
@@ -190,8 +198,9 @@ public class CategorieManagedBean implements Serializable {
 			categorieService.deleteCategorie(catDel);
 
 			// Actualiser la liste à afficher
-			List<Categorie> liste = categorieService.getAllCategorie();
-			agentSession.setAttribute("categorieListe", liste);
+			this.listeCategorie = categorieService.getAllCategorie();
+			// List<Categorie> liste = categorieService.getAllCategorie();
+			agentSession.setAttribute("categorieListe", this.listeCategorie);
 
 			return "accueilAgent";
 
@@ -203,8 +212,6 @@ public class CategorieManagedBean implements Serializable {
 		}
 
 	}
-
-	
 
 	// TODO updateCategorie
 	public String updateCategorie() {
@@ -237,8 +244,6 @@ public class CategorieManagedBean implements Serializable {
 
 	}
 
-	
-
 	// TODO Autocomplete Categorie
 	public List<Categorie> completeCategorie(String query) {
 
@@ -254,4 +259,19 @@ public class CategorieManagedBean implements Serializable {
 		return listeFiltree;
 	}
 
+	// TODO onRowEditCategorie
+	public void onRowEditCategorie(RowEditEvent event) {
+
+		Categorie catEdit = (Categorie) (event.getObject());
+
+		categorieService.updateCategorie(catEdit);
+
+		this.listeCategorie = categorieService.getAllCategorie();
+		this.agentSession.setAttribute("categorieListe", listeCategorie);
+
+		FacesMessage msg = new FacesMessage(
+				"Catégorie éditée : " + catEdit.getIdCategorie() + " " + catEdit.getNomCategorie());
+		FacesContext.getCurrentInstance().addMessage(null, msg);
+
+	}
 }
