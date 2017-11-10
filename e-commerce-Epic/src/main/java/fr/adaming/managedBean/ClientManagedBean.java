@@ -47,26 +47,26 @@ public class ClientManagedBean implements Serializable {
 
 	// Constructeur vide
 	public ClientManagedBean() {
-		//this.client = new Client();// instanciation du client sinon erreur no
-									// target unreachable;
+	this.client = new Client();// instanciation du client sinon erreur no
+		// target unreachable;
 	}
 
 	// =======================================================================//
-	// creation de la session client
-	@PostConstruct
-	public void sessionClient() {
-
-		// recuperation du context
-		FacesContext context = FacesContext.getCurrentInstance();
-
-		// recuperer la session a partir du context
-		this.session = (HttpSession) context.getExternalContext().getSession(false);
-
-		// recuperation du client a partir de la session
-		this.client = new Client();
-		this.client = (Client) session.getAttribute("clientSession");
-
-	}
+//	// creation de la session client
+//	@PostConstruct
+//	public void sessionClient() {
+//
+//		// recuperation du context
+//		FacesContext context = FacesContext.getCurrentInstance();
+//
+//		// recuperer la session a partir du context
+//		this.session = (HttpSession) context.getExternalContext().getSession(false);
+//
+//		// recuperation du client a partir de la session
+//		this.client = new Client();
+//		this.client = (Client) session.getAttribute("clientSession");
+//
+//	}
 
 	// =======================================================================//
 	// getters et setters

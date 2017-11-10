@@ -27,7 +27,7 @@ public class LigneCommandeServiceImpl implements ILigneCommandeService{
 	
 	@Override
 	public List<LigneCommande> GetAllLigneCommande(Client c) {
-		return null;
+		return LigneCommandeDao.GetAllLigneCommande(c);
 	}
 
 	@Override

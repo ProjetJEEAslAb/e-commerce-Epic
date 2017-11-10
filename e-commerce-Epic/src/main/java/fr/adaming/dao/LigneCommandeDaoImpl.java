@@ -42,6 +42,7 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao {
 		Query query = s.createQuery(req); // recuperation du query de la session
 
 		
+		
 		// envoyer la requete et recuperation du resultat
 		List<LigneCommande> liste = query.list();
 
