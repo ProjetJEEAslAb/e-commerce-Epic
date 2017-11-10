@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import fr.adaming.model.Categorie;
 import fr.adaming.model.Client;
 import fr.adaming.model.LigneCommande;
 
@@ -49,11 +50,30 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao {
 		return liste;
 	}
 
-// =============================methode rechercher=========================================//
+// =============================methode rechercher :  produit en attentes dans ligne de commande=========================================//
 	
 	@Override
-	public LigneCommande getLigneCommande(LigneCommande lc) {
-		return null;
+	public List<LigneCommande> getLigneCommande(Client c) {
+		
+		// recuperation de la session
+		Session s = sf.getCurrentSession(); // recupere la session si elle
+													// existe sinon doit en creer une
+													// --> plus optimiser
+
+		// La requete HQL
+		String req = "FROM LigneCommande lc WHERE lc.valide=:pValide_lc";// id du
+			
+		// creation d'un objet query
+		Query query = s.createQuery(req);
+		
+		// passage des paramètres
+		query.setParameter("pValide_lc", "En attente");
+
+		// 5. Envoyer la requête et récupérer le résultat
+		List<LigneCommande> lcGet = query.list();
+
+		// 6. Retourner la liste récupérée
+		return lcGet;
 	}
 	
 // =============================methode ajouter=========================================//
@@ -110,5 +130,9 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao {
 
 		return lclOut;
 	}
+	
+	
+
+	
 
 }

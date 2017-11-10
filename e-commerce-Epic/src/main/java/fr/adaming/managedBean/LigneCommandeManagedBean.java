@@ -42,10 +42,12 @@ public class LigneCommandeManagedBean implements Serializable{
 
 	private Panier attPanier;
 	private List<LigneCommande> listeLigneCommande;
+	private List<LigneCommande> listeLigneCommandeAttente;
 	private Long id_produit;
 	private LigneCommande ligneCommande;
 	private Commande commande;
 	private Client client;
+
 
 	// Pour l'affichage des tables
 	private boolean indice = false;
@@ -67,6 +69,7 @@ public class LigneCommandeManagedBean implements Serializable{
 		this.client = (Client) clientSession.getAttribute("clientSession");
 		this.commande = new Commande();
 		this.listeLigneCommande = ligneCommandeService.GetAllLigneCommande(this.client);
+		this.listeLigneCommandeAttente=ligneCommandeService.getLigneCommande(this.client);
 	}
 
 	// =======================================================================//
@@ -137,6 +140,14 @@ public class LigneCommandeManagedBean implements Serializable{
 	public void setId_produit(Long id_produit) {
 		this.id_produit = id_produit;
 	}
+	
+	public List<LigneCommande> getListeLigneCommandeAttente() {
+		return listeLigneCommandeAttente;
+	}
+
+	public void setListeLigneCommandeAttente(List<LigneCommande> listeLigneCommandeAttente) {
+		this.listeLigneCommandeAttente = listeLigneCommandeAttente;
+	}
 
 	// =======================================================================//
 	// methodes
@@ -145,7 +156,7 @@ public class LigneCommandeManagedBean implements Serializable{
 
 		try {
 			// trouver le la ligne de commande que l'on cherche
-			this.ligneCommande = ligneCommandeService.getLigneCommande(this.ligneCommande);
+			this.ligneCommande = (LigneCommande) ligneCommandeService.getLigneCommande(this.client);
 			this.indice = true;
 			return "rechercherLigneCommande";
 
@@ -170,7 +181,7 @@ public class LigneCommandeManagedBean implements Serializable{
 			this.ligneCommande = ligneCommandeService.addLigneCommandePanier(this.ligneCommande);
 	
 
-			return "panier";
+			return "ajouterLigneCommande";
 
 		} catch (Exception e) {
 
@@ -184,7 +195,7 @@ public class LigneCommandeManagedBean implements Serializable{
 	public String supprimerLigneCommande() {
 		try {
 			// Trouver le produit à supprimer
-			LigneCommande lcsup = ligneCommandeService.getLigneCommande(this.ligneCommande);
+			LigneCommande lcsup = (LigneCommande) ligneCommandeService.getLigneCommande(this.client);
 
 			// Supprimer le produit recherché
 			ligneCommandeService.deleteLigneCommandePanier(lcsup);
@@ -212,7 +223,7 @@ public class LigneCommandeManagedBean implements Serializable{
 
 		try {
 			// Trouver la ligne à modifier
-			LigneCommande lcUp = ligneCommandeService.getLigneCommande(this.ligneCommande);
+			LigneCommande lcUp = (LigneCommande) ligneCommandeService.getLigneCommande(this.client);
 
 			// Modifier la ligne retrouvée
 			lcUp.setValide(this.ligneCommande.getValide());
@@ -281,6 +292,35 @@ public class LigneCommandeManagedBean implements Serializable{
 
 	}
 
+//	//========================panier en attente===========================//
+
+//	public String ValiderCommandeEnAttente() {
+//
+//		double sommePrixTotal = 0;
+//		for (LigneCommande ligne : this.listeLigneCommande) {
+//			if (ligne.getValide().equals("En attente")) {
+//
+//				// Récupérer le produit commandé
+//				Produit prodValide = ligne.getAttProduit();
+//				prodValide = prodService.getProduitById(prodValide);
+//				prodValide.setQuantite(prodValide.getQuantite() - ligne.getQuantite());
+//				
+//				// Actualiser la liste à afficher
+//				this.listeLigneCommandeAttente = (List<LigneCommande>) ligneCommandeService.getLigneCommande(this.client);
+//				//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listeLigneCommandeAttente", listeAttente);
+//
+//			} else {
+//				continue;
+//			}
+//
+//		}
+//
+//		return "ajouterLigneCommande";
+//
+//	}
+	
+	
+	//========================methode annuler commande====================//
 	public String Annuler() {
 
 		for (LigneCommande ligne : this.listeLigneCommande) {

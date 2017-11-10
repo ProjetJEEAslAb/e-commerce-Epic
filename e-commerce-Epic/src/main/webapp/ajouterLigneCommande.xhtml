@@ -30,7 +30,7 @@
 			<p:inputMask id="idId" value="#{lcMB.id_produit}" />
 
 			<p:commandButton value="ajouter ligne de commande"
-				action="#{lcMB.ajouterLigneCommande}" icon="ui-icon-disk" />
+				action="#{lcMB.ajouterLigneCommande}" update ="@all" icon="ui-icon-disk" />
 		</h:panelGrid>
 	</h:form>
 
@@ -68,9 +68,53 @@
 			</p:column>
 
 		</p:dataTable>
+		
+		
+		<!-- =========================== Panier en cours =========================== -->
+		
+	</h:form>
+	
+	<h1 style="color: #009999; text-align: center">
+		Panier
+		<h:graphicImage value="resTest/h.gif" width="8%" length="8%"
+			style="position:relative; bottom:-20px;left:40px" />
+	</h1>
+	<h:form>
+		<p:dataTable id="listeLigneCommandeAttente" var="panier"
+			value="#{lcMB.listeLigneCommandeAttente}">
+
+			<p:column headerText="Id de la ligne de commande" width="3%">
+				<h:outputText value="#{panier.id_lc}" />
+			</p:column>
+
+			<p:column headerText="designation">
+				<h:outputText value="#{panier.attProduit.designation}" />
+			</p:column>
+
+			<p:column headerText="Quantite produit">
+				<h:outputText value="#{panier.quantite}" />
+			</p:column>
+
+			<p:column headerText="Prix total">
+				<h:outputText value="#{panier.prix}" />
+			</p:column>
+
+			<p:column headerText="Etat">
+				<h:outputText value="#{panier.valide}" />
+			</p:column>
+
+		</p:dataTable>
 	</h:form>
 
+	<p:commandButton value="Valider la commande" action="#{lcMB.ValiderCommandeEnAttente}"
+		icon="ui-icon-disk" update="@all" />
+	<p:commandButton value="Annuler la commande" action="#{lcMB.Annuler}"
+		icon="ui-icon-disk" update="@all" />
+		
+
 	<h:form>
+		
+			
 	<br/>
 		<p:dock position="bottom">
 			<p:menuitem value="Accueil" icon="/resources/images/home.png"

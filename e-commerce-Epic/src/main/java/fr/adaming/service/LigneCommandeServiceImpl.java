@@ -31,8 +31,8 @@ public class LigneCommandeServiceImpl implements ILigneCommandeService{
 	}
 
 	@Override
-	public LigneCommande getLigneCommande(LigneCommande lc) {
-		return LigneCommandeDao.getLigneCommande(lc);
+	public List<LigneCommande> getLigneCommande(Client c) {
+		return LigneCommandeDao.getLigneCommande(c);
 	}
 
 	@Override
