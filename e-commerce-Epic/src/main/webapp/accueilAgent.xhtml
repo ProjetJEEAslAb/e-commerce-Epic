@@ -21,7 +21,7 @@
 		<p:dataTable id="listeCategorie" var="cat"
 			value="#{catMB.listeCategorie}" styleClass="tableau" editable="true"
 			widgetVar="tabCat" rowKey="#{cat.idCategorie}"
-			selection="#{catMB.categorie}" selectionMode="single"
+			selection="#{catMB.selectedCategorie}" selectionMode="single"
 			emptyMessage="Pas de catégorie trouvée"
 			filteredValue="#{catMB.selectedCategories}">
 
@@ -86,7 +86,6 @@
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
-
 		</p:dataTable>
 
 		<p:contextMenu for="listeCategorie" widgetVar="cMenu">
@@ -105,13 +104,58 @@
 			showEffect="fade" hideEffect="fade" resizable="false"
 			position="center top" draggable="true" width="500" height="300">
 			<p:outputPanel id="catDetail" style="text-align:center;">
-				<p:panelGrid columns="2" rendered="#{not empty catMB.categorie}"
+				<p:panelGrid rendered="#{not empty catMB.categorie}"
 					columnClasses="label,value">
 
-					<h:outputText value="#{catMB.categorie.idCategorie}" />
-					<h:outputText value="#{catMB.categorie.nomCategorie}" />
-					<h:outputText value="#{catMB.categorie.attAgent.id}" />
-					<h:outputText value="#{catMB.categorie.description}" />
+					<f:facet name="header">
+						<p:row>
+							<p:column colspan="7">Informations</p:column>
+						</p:row>
+					</f:facet>
+
+					<p:row>
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="#{catMB.selectedCategorie.nomCategorie}" />
+						</p:column>
+				
+						<p:column rowspan="5">Image en cours</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column rowspan="1">
+							<h:outputText value="#{catMB.selectedCategorie.idCategorie}" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="1" styleClass="ui-widget-header">
+							<p:spacer height="0" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="Responsable" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column rowspan="1">
+							<h:outputText value="#{catMB.selectedCategorie.attAgent.id}" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="7" styleClass="ui-widget-header">
+							<p:spacer height="0" />
+						</p:column>
+					</p:row>
+
+					<p:row>
+						<p:column colspan="7" style="text-align: center">
+							<h:outputText value="#{catMB.selectedCategorie.description}" />
+						</p:column>
+					</p:row>
 
 				</p:panelGrid>
 			</p:outputPanel>
