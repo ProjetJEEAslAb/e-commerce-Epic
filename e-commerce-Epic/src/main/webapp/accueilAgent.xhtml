@@ -103,22 +103,15 @@
 
 		<p:dialog header="Catégorie" widgetVar="catDialog" modal="true"
 			showEffect="fade" hideEffect="fade" resizable="false"
-			position="center top" draggable="true" width="300">
+			position="center top" draggable="true" width="500" height="300">
 			<p:outputPanel id="catDetail" style="text-align:center;">
 				<p:panelGrid columns="2" rendered="#{not empty catMB.categorie}"
 					columnClasses="label,value">
 
-					<h:outputText value="Id:" />
 					<h:outputText value="#{catMB.categorie.idCategorie}" />
-
-					<h:outputText value="Nom" />
 					<h:outputText value="#{catMB.categorie.nomCategorie}" />
-
-					<h:outputText value="Description" />
-					<h:outputText value="#{catMB.categorie.description}" />
-
-					<h:outputText value="Responsable" />
 					<h:outputText value="#{catMB.categorie.attAgent.id}" />
+					<h:outputText value="#{catMB.categorie.description}" />
 
 				</p:panelGrid>
 			</p:outputPanel>
@@ -136,8 +129,7 @@
 				<p:watermark for="desc" value="Description" />
 
 				<f:facet name="footer">
-					<p:commandButton value="Ajouter"
-						action="#{catMB.addCategorie}"
+					<p:commandButton value="Ajouter" action="#{catMB.addCategorie}"
 						oncomplete="PF('addDialog').hide()" update="@all" />
 				</f:facet>
 			</h:panelGrid>
