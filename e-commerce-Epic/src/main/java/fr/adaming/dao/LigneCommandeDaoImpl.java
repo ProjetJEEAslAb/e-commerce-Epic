@@ -34,7 +34,7 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao {
 											// --> plus optimiser
 
 		// La requete HQL
-		String req = "FROM LigneCommande lc";// id du
+		String req = "FROM LigneCommande lc WHERE lc.attCommande.client.id=:pIdcl";// id du
 																	// formateur
 																	// de
 																	// l'etudiant
@@ -42,7 +42,9 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao {
 		// creation d'un objet query
 		Query query = s.createQuery(req); // recuperation du query de la session
 
-		
+		// passage des paramètres
+		query.setParameter("pIdcl", c.getId());
+
 		
 		// envoyer la requete et recuperation du resultat
 		List<LigneCommande> liste = query.list();
@@ -61,13 +63,14 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao {
 													// --> plus optimiser
 
 		// La requete HQL
-		String req = "FROM LigneCommande lc WHERE lc.valide=:pValide_lc";// id du
+		String req = "FROM LigneCommande lc WHERE lc.valide=:pValide_lc AND lc.attCommande.client.id=:pIdcl ";// id du
 			
 		// creation d'un objet query
 		Query query = s.createQuery(req);
 		
 		// passage des paramètres
 		query.setParameter("pValide_lc", "En attente");
+		query.setParameter("pIdcl", c.getId());
 
 		// 5. Envoyer la requête et récupérer le résultat
 		List<LigneCommande> lcGet = query.list();
@@ -92,19 +95,21 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao {
 //=============================methode supprimer=========================================//
 
 	@Override
-	public int deleteLigneCommandePanier(LigneCommande lc) {
+	public int deleteLigneCommandePanier(LigneCommande lc, Client c) {
 		
 		// recuperation de la session
 		Session s = sf.getCurrentSession();
 
 		// creation de la requete HQL
-		String req = "DELETE LigneCommande lc WHERE lc.id_lc=:pIdlc";
+		String req = "DELETE LigneCommande lc WHERE lc.id_lc=:pIdlc AND lc.attCommande.id_com=:pIdco";
 
 		// creation d'un objet query
 		Query query = s.createQuery(req);
 
 		// passage des paramètres
+		
 		query.setParameter("pIdlc", lc.getId_lc());
+		query.setParameter("pIdco", lc.getAttCommande().getId_com());
 
 		// execution du query
 		int verif = query.executeUpdate();
@@ -115,20 +120,37 @@ public class LigneCommandeDaoImpl implements ILigneCommandeDao {
 // =============================methode modifierr=========================================//
 
 	@Override
-	public LigneCommande updateLigneCommande(LigneCommande lc) {
+	public int updateLigneCommande(LigneCommande lc,Client c) {
 		
 		// recuperation de la session
 		Session s = sf.getCurrentSession();
 
-		LigneCommande lclOut = (LigneCommande) s.get(LigneCommande.class, lc.getId_lc());
+		//requete HQL
+		String req=" UPDATE LigneCommande lc SET lc.quantite=:pQuantite,lc.prix=:pPrix,lc.valide=:pValide WHERE lc.id_lc=:pIdlc AND lc.attCommande.id_com=:pIdco";
+		//LigneCommande lclOut = (LigneCommande) s.get(LigneCommande.class, lc.getId_lc());
 
-		lclOut.setId_lc(lc.getId_lc());
-		lclOut.setPrix(lc.getPrix());
-		lclOut.setQuantite(lc.getQuantite());
+		// creation d'un objet query
+		Query query = s.createQuery(req);
 
-		s.saveOrUpdate(lclOut);
+		// passage des paramètres
+		query.setParameter("pQuantite",lc.getQuantite());
+		query.setParameter("pPrix", lc.getPrix());
+		query.setParameter("pValide", lc.getValide());
+		query.setParameter("pIdlc", lc.getId_lc());
+		query.setParameter("pIdco", lc.getAttCommande().getId_com());
+		
+//		lclOut.setId_lc(lc.getId_lc());
+//		lclOut.setPrix(lc.getPrix());
+//		lclOut.setQuantite(lc.getQuantite());
 
-		return lclOut;
+		//s.saveOrUpdate(lclOut);
+
+		//return lclOut;
+		
+		// execution du query
+		int verif = query.executeUpdate();
+
+		return verif;
 	}
 	
 	

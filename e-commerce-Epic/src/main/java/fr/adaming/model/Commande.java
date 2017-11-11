@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -15,6 +16,9 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 @Table(name = "commandes")
@@ -62,7 +66,8 @@ public class Commande implements Serializable {
 	@JoinColumn(name = "client_id", referencedColumnName = "id_client")
 	private Client client;
 
-	@OneToMany(mappedBy = "attCommande")
+	@OneToMany(mappedBy = "attCommande", fetch=FetchType.EAGER)
+	@Fetch(value=FetchMode.SUBSELECT)
 	private List<LigneCommande> listeLigneCommande;
 
 	// =======================================================================//
@@ -101,13 +106,13 @@ public class Commande implements Serializable {
 		this.listeLigneCommande = listeLigneCommande;
 	}
 
-	@Override
-	public String toString() {
-		return "Commande [id_com=" + id_com + ", dateCommande=" + dateCommande + "]";
-	}
+	
 
 	// =======================================================================//
 
 	// methode to string
-
+	@Override
+	public String toString() {
+		return "Commande [id_com=" + id_com + ", dateCommande=" + dateCommande + "]";
+	}
 }

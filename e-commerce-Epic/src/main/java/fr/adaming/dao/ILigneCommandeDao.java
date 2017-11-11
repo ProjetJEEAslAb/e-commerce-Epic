@@ -10,8 +10,8 @@ public interface ILigneCommandeDao {
 	public List<LigneCommande> GetAllLigneCommande(Client c);
 	public List<LigneCommande> getLigneCommande(Client c);
 	public LigneCommande addLigneCommandePanier(LigneCommande lc);
-	public int deleteLigneCommandePanier(LigneCommande lc);
-	public LigneCommande updateLigneCommande(LigneCommande lc);
+	public int deleteLigneCommandePanier(LigneCommande lc,Client c);
+	public int updateLigneCommande(LigneCommande lc, Client c);
 	
 
 }

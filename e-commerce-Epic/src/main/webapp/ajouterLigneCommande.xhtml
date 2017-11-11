@@ -31,6 +31,21 @@
 
 			<p:commandButton value="ajouter ligne de commande"
 				action="#{lcMB.ajouterLigneCommande}" update ="@all" icon="ui-icon-disk" />
+				
+		</h:panelGrid>
+	</h:form>
+		<!-- =========================== commandes =========================== -->
+	
+	<h:form>
+		<p:growl id="messages" autoUpdate="true" />
+		<h:panelGrid columns="2" styleClass="centered">
+
+		
+		<p:outputLabel for="dateCommandeId" value="date de la commande: " />
+		<p:inputMask id="dateCommandeId" value="#{coMB.commande.dateCommande}" />
+				
+			<p:commandButton value="ajouter commande"
+				action="#{coMB.ajouterCommande}" update ="@all" icon="ui-icon-disk" />
 		</h:panelGrid>
 	</h:form>
 
@@ -106,11 +121,9 @@
 		</p:dataTable>
 	</h:form>
 
-	<p:commandButton value="Valider la commande" action="#{lcMB.ValiderCommandeEnAttente}"
+	<p:commandButton value="Consulter panier" action="panier"
 		icon="ui-icon-disk" update="@all" />
-	<p:commandButton value="Annuler la commande" action="#{lcMB.Annuler}"
-		icon="ui-icon-disk" update="@all" />
-		
+	
 
 	<h:form>
 		

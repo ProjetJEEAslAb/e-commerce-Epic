@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import fr.adaming.dao.ILigneCommandeDao;
 import fr.adaming.dao.LigneCommandeDaoImpl;
 import fr.adaming.model.Client;
+import fr.adaming.model.Commande;
 import fr.adaming.model.LigneCommande;
 
 @Service("lcService") //pour la declaration du bean 
@@ -36,18 +37,21 @@ public class LigneCommandeServiceImpl implements ILigneCommandeService{
 	}
 
 	@Override
-	public LigneCommande addLigneCommandePanier(LigneCommande lc) {
+	public LigneCommande addLigneCommandePanier(LigneCommande lc, Commande co) {
+		
+		//relier la ligne de commande a une commande
+		lc.setAttCommande(co);
 		return LigneCommandeDao.addLigneCommandePanier(lc);
 	}
 
 	@Override
-	public int deleteLigneCommandePanier(LigneCommande lc) {
-		return LigneCommandeDao.deleteLigneCommandePanier(lc);
+	public int deleteLigneCommandePanier(LigneCommande lc, Client c) {
+		return LigneCommandeDao.deleteLigneCommandePanier(lc,c);
 	}
 
 	@Override
-	public LigneCommande updateLigneCommande(LigneCommande lc) {
-		return LigneCommandeDao.updateLigneCommande(lc);
+	public int updateLigneCommande(LigneCommande lc, Client c) {
+		return LigneCommandeDao.updateLigneCommande(lc,c);
 	}
 
 }
