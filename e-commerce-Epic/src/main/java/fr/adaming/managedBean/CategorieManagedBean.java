@@ -192,7 +192,7 @@ public class CategorieManagedBean implements Serializable {
 
 		try {
 			// Trouver la catégorie à supprimer
-			Categorie catDel = categorieService.getCategorieById(this.categorie);
+			Categorie catDel = categorieService.getCategorieById(this.selectedCategorie);
 
 			// Supprimer la catégorie retrouvée
 			categorieService.deleteCategorie(catDel);

@@ -57,15 +57,16 @@ public class ProduitManagedBean implements Serializable {
 
 	// Pour l'affichage des tables
 	private boolean indice = false;
+	
+	private String idCatString;
 	// =======================================================================//
+	
 	// constructeur vide
 
 	public ProduitManagedBean() {
 		this.agent = new Agent();
 		this.client = new Client();
 		this.produit = new Produit();
-		this.selectedProduit = new Produit();
-		this.categorie = new Categorie();
 	}
 
 	// =======================================================================//
@@ -88,9 +89,12 @@ public class ProduitManagedBean implements Serializable {
 
 		// recuperation du client a partir de la session
 		// this.client = (Client) clientSession.getAttribute("clientSession");
+		
+		this.selectedProduit = new Produit();
+		this.categorie = new Categorie();
+		
 		this.listeProduit = produitService.GetAllProduits();
 		
-		this.selectedProduit.setAttCategorie(this.categorie);
 	}
 
 	// =======================================================================//
@@ -208,6 +212,14 @@ public class ProduitManagedBean implements Serializable {
 		this.selectedProduit = selectedProduit;
 	}
 
+	public String getIdCatString() {
+		return idCatString;
+	}
+
+	public void setIdCatString(String idCatString) {
+		this.idCatString = idCatString;
+	}
+
 	// =======================================================================//
 	public List<Produit> completeProduit(String query) {
 
@@ -248,7 +260,7 @@ public class ProduitManagedBean implements Serializable {
 
 		try {
 			// Trouver le produit à supprimer
-			Produit proDel = produitService.getProduitById(this.produit);
+			Produit proDel = produitService.getProduitById(this.selectedProduit);
 
 			// Supprimer le produit recherché
 			produitService.deleteProduit(proDel);
@@ -299,7 +311,7 @@ public class ProduitManagedBean implements Serializable {
 		try {
 			// Ajouter les informations dans this.produit
 			Categorie catAjout = new Categorie();
-			catAjout.setIdCategorie(this.idCategorie);
+			catAjout.setIdCategorie(Long.parseLong(this.idCatString));
 			this.produit.setAttAgent(this.agent);
 			this.produit.setAttCategorie(catAjout);
 			this.produit = produitService.addProduitByLc(this.produit);
@@ -308,12 +320,12 @@ public class ProduitManagedBean implements Serializable {
 			this.listeProduit = produitService.GetAllProduits();
 			agentSession.setAttribute("produitListe", this.listeProduit);
 
-			return "accueilAgent";
+			return "#";
 
 		} catch (Exception e) {
 
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("L'ajout a échoué"));
-			return "addAgent";
+			return "#";
 
 		}
 

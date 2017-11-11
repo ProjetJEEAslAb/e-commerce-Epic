@@ -4,19 +4,18 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://java.sun.com/jsp/jstl/core">
 
 <h:head>
-	<title>Page Login</title>
+	<title>Page login</title>
 </h:head>
 
 <h:body>
 
-	<!-- =========================== Liste des produits en tableau =========================== -->
 	<h:form>
 
 		<p:growl id="messages" autoUpdate="true" />
-
 		<p:dataTable id="listeProduits" var="pro" value="#{pMB.listeProduit}"
 			styleClass="tableau" editable="true" widgetVar="tabPro"
 			rowKey="#{pro.idProduit}" selection="#{pMB.selectedProduit}"
@@ -123,7 +122,7 @@
 
 					<p:row>
 						<p:column rowspan="1" style="font-weight: bold;">
-							<h:outputText value="#{pMB.produit.designation}" />
+							<h:outputText value="#{pMB.selectedProduit.designation}" />
 						</p:column>
 
 						<p:column rowspan="5">Image en cours</p:column>
@@ -131,7 +130,7 @@
 
 					<p:row>
 						<p:column rowspan="1">
-							<h:outputText value="#{pMB.produit.idProduit}" />
+							<h:outputText value="#{pMB.selectedProduit.idProduit}" />
 						</p:column>
 					</p:row>
 
@@ -149,7 +148,7 @@
 
 					<p:row>
 						<p:column rowspan="1">
-							<h:outputText value="#{pMB.produit.prix}" />
+							<h:outputText value="#{pMB.selectedProduit.prix}" />
 						</p:column>
 					</p:row>
 
@@ -161,7 +160,7 @@
 
 					<p:row>
 						<p:column colspan="7" style="text-align: center">
-							<h:outputText value="#{pMB.produit.description}" />
+							<h:outputText value="#{pMB.selectedProduit.description}" />
 						</p:column>
 					</p:row>
 
@@ -172,21 +171,27 @@
 		<p:dialog header="Ajout de Produit" widgetVar="addDialogPro"
 			resizable="false">
 			<h:panelGrid columns="2" cellpadding="5">
-				<p:inputText id="nomPro" value="#{pMB.selectedProduit.designation}"
+				<p:inputText id="nomPro" value="#{pMB.produit.designation}"
 					label="Nom" />
 				<p:watermark for="nomPro" value="Nom" />
 
-				<p:inputText id="descPro" value="#{pMB.selectedProduit.description}"
+				<p:inputText id="descPro" value="#{pMB.produit.description}"
 					label="Description" />
 				<p:watermark for="descPro" value="Description" />
 
-				<p:inputText id="prixPro" value="#{pMB.selectedProduit.prix}"
-					label="Prix" />
+				<p:inputText id="prixPro" value="#{pMB.produit.prix}" label="Prix" />
 				<p:watermark for="prixPro" value="Prix" />
 
-				<p:inputText id="qtePro" value="#{pMB.selectedProduit.quantite}"
+				<p:inputText id="qtePro" value="#{pMB.produit.quantite}"
 					label="Quantité" />
 				<p:watermark for="qtePro" value="Quantité" />
+
+				<h:selectOneMenu id="txt3" value="#{pMB.idCatString}" label="Text 3">
+					<c:forEach items="#{catMB.listeCategorie}" var="cat">
+						<f:selectItem itemLabel="#{cat.nomCategorie}"
+							itemValue="#{cat.idCategorie}" noSelectionOption="true" />
+					</c:forEach>
+				</h:selectOneMenu>
 
 				<f:facet name="footer">
 					<p:commandButton value="Ajouter" action="#{pMB.addProduitByAgent}"
@@ -196,7 +201,7 @@
 		</p:dialog>
 
 	</h:form>
-	
+
 	<!-- =========================== Menu panier =========================== -->
 	<h:form>
 		<p:stack icon="/resources/images/stack.png" expanded="true">
@@ -216,4 +221,5 @@
 	</h:form>
 
 </h:body>
+
 </html>
