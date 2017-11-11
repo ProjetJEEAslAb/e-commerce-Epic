@@ -24,19 +24,22 @@
 
 	<h:form>
 		<p:growl id="messages" autoUpdate="true" />
-		<h:panelGrid columns="2" styleClass="centered">
+		<h:panelGrid columns="3" styleClass="centered">
 
-			<p:outputLabel for="idId" value="ID produit: " />
-			<p:inputMask id="idId" value="#{lcMB.id_produit}" />
+			<p:outputLabel for="idId" value="ID produit " required="true"  />
+			<p:inputMask id="idId" value="#{lcMB.id_produit}" required="true" />
+        	<p:message for="idId" />
+        	
 
-			<p:outputLabel for="quantiteId" value="Quantite produit: " />
-			<p:inputMask id="quantiteId" value="#{lcMB.ligneCommande.quantite}" />
-
-			<p:commandButton value="ajouter ligne de commande"
+			<p:outputLabel for="quantiteId" value="Quantite produit " required="true" />
+			<p:inputMask id="quantiteId" value="#{lcMB.ligneCommande.quantite}" required="true"  validator="#{vMB.validerQuantite}"/>
+			<p:message for="quantiteId" />
+			
+		</h:panelGrid>
+		
+		<p:commandButton value="ajouter ligne de commande"
 				action="#{lcMB.ajouterLigneCommande}" update="@all"
 				icon="ui-icon-disk" />
-
-		</h:panelGrid>
 	</h:form>
 	<div class="tableaux">
 		<div id="left">
@@ -70,7 +73,7 @@
 
 					<p:column headerText="Quantité" filterBy="#{pro.quantite}"
 						filterMatchMode="contains" width="8%">
-						<h:outputText value="#{pro.quantite}" />
+						<h:outputText value="#{pro.quantite}" />						
 					</p:column>
 				</p:dataTable>
 			</h:form>
@@ -110,10 +113,11 @@
 					</p:column>
 
 				</p:dataTable>
-			</h:form>
+			
 
 			<p:commandButton value="Consulter panier" action="panier"
 				icon="ui-icon-disk" style="align:center" update="@all" />
+		</h:form>		
 		</div>
 	</div>
 

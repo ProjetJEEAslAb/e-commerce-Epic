@@ -55,7 +55,9 @@
 
 			<p:dialog header="Connection" widgetVar="dlgClient" resizable="false">
 				<h:panelGrid columns="2" cellpadding="5">
-					<p:inputText id="username" value="#{cMB.client.mail}" required="true" label="username"/>
+					<p:inputText id="username" value="#{cMB.client.mail}" required="true" label="username">
+						<f:validator validatorId="validatorMail"/>
+					</p:inputText>
 					<p:watermark for="username" value="Email" />
 
 					<p:password id="password" value="#{cMB.client.mdp}"
