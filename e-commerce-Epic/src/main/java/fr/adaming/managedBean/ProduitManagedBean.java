@@ -14,6 +14,7 @@ import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
 import org.primefaces.event.RowEditEvent;
+import org.primefaces.model.UploadedFile;
 
 import fr.adaming.model.Agent;
 import fr.adaming.model.Categorie;
@@ -57,7 +58,7 @@ public class ProduitManagedBean implements Serializable {
 
 	// Pour l'affichage des tables
 	private boolean indice = false;
-	
+	private UploadedFile file;
 	private String idCatString;
 	// =======================================================================//
 	
@@ -220,6 +221,15 @@ public class ProduitManagedBean implements Serializable {
 		this.idCatString = idCatString;
 	}
 
+	
+	public UploadedFile getFile() {
+		return file;
+	}
+
+	public void setFile(UploadedFile file) {
+		this.file = file;
+	}
+
 	// =======================================================================//
 	public List<Produit> completeProduit(String query) {
 
@@ -314,18 +324,24 @@ public class ProduitManagedBean implements Serializable {
 			catAjout.setIdCategorie(Long.parseLong(this.idCatString));
 			this.produit.setAttAgent(this.agent);
 			this.produit.setAttCategorie(catAjout);
+
+			
+			this.produit.setImageBytes(file.getContents());
+			
+
 			this.produit = produitService.addProduitByLc(this.produit);
 
 			// Actualiser la liste à afficher
 			this.listeProduit = produitService.GetAllProduits();
 			agentSession.setAttribute("produitListe", this.listeProduit);
 
-			return "#";
+			return "agentProduit";
 
 		} catch (Exception e) {
-
+			System.out.println("Echec");
+			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("L'ajout a échoué"));
-			return "#";
+			return "agentProduit";
 
 		}
 
@@ -349,7 +365,9 @@ public class ProduitManagedBean implements Serializable {
 			proUp.setPrix(this.produit.getPrix());
 			proUp.setQuantite(this.produit.getQuantite());
 			proUp.setAttCategorie(catUp);
-
+			
+			proUp.setImageBytes(file.getContents());
+			
 			produitService.updateProduitByAgent(proUp);
 
 			// Actualiser la liste à afficher
@@ -372,6 +390,8 @@ public class ProduitManagedBean implements Serializable {
 
 		Produit proEdit = (Produit) (event.getObject());
 
+		proEdit.setImageBytes(file.getContents());
+		
 		produitService.updateProduitByAgent(proEdit);
 
 		this.listeProduit = produitService.GetAllProduits();

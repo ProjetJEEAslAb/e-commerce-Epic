@@ -69,7 +69,7 @@
 		</init-param>
 		<init-param>
 			<param-name>uploadDirectory</param-name>
-			<param-value>c:/tmp</param-value>
+			<param-value>C:\Users\inti-0265\Desktop\pipo</param-value>
 		</init-param>
 	</filter>
 	<filter-mapping>
@@ -77,4 +77,9 @@
 		<servlet-name>Faces Servlet</servlet-name>
 	</filter-mapping>
 
+<context-param>
+	<param-name>primefaces.UPLOADER</param-name>
+	<param-value>commons</param-value>
+
+</context-param>
 </web-app>

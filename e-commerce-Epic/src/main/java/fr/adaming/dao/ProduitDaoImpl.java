@@ -1,5 +1,6 @@
 package fr.adaming.dao;
 
+import java.awt.Image;
 import java.util.List;
 
 import org.hibernate.Query;
@@ -7,6 +8,8 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import com.mysql.jdbc.Connection;
 
 import fr.adaming.model.Agent;
 import fr.adaming.model.Produit;
@@ -116,5 +119,15 @@ public class ProduitDaoImpl implements IProduitDao {
 
 		return pro;
 	}
+
+	@Override
+	public Produit getImageById(Long id) {
+		
+		// recuperation de la session
+		Session s = sf.getCurrentSession();
+		return (Produit) s.get(Produit.class, id);
+	}
+
+	
 
 }

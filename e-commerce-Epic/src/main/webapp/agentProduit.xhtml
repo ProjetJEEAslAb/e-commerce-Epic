@@ -13,7 +13,7 @@
 
 <h:body>
 
-	<h:form>
+	<h:form enctype="multipart/form-data">
 
 		<p:growl id="messages" autoUpdate="true" />
 		<p:dataTable id="listeProduits" var="pro" value="#{pMB.listeProduit}"
@@ -91,6 +91,19 @@
 				<h:outputText value="#{pro.attCategorie.nomCategorie}" />
 			</p:column>
 
+			<p:column>
+				<p:cellEditor>
+					<f:facet name="output">
+						<p:graphicImage value="#{iMB.image}" width="300">
+							<f:param name="idProduit" value="#{pro.idProduit}"></f:param>
+						</p:graphicImage>
+					</f:facet>
+					<f:facet name="input">
+						<p:fileUpload value="#{pMB.file}" mode="simple" />
+					</f:facet>
+				</p:cellEditor>
+			</p:column>
+
 			<p:column style="width:32px">
 				<p:rowEditor />
 			</p:column>
@@ -109,7 +122,7 @@
 
 		<p:dialog header="Produit" widgetVar="proDialog" modal="true"
 			showEffect="fade" hideEffect="fade" resizable="false"
-			position="center top" draggable="true" width="500" height="300">
+			position="center top" draggable="true" width="600" height="500">
 			<p:outputPanel id="proDetail" style="text-align:center;">
 				<p:panelGrid rendered="#{not empty pMB.produit}"
 					columnClasses="label,value">
@@ -124,18 +137,39 @@
 						<p:column rowspan="1" style="font-weight: bold;">
 							<h:outputText value="#{pMB.selectedProduit.designation}" />
 						</p:column>
+						
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="" />
+						</p:column>
 
-						<p:column rowspan="5">Image en cours</p:column>
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="Quantité" />
+						</p:column>
+
+						<p:column rowspan="5">
+							<p:graphicImage value="#{iMB.image}" width="300">
+								<f:param name="idProduit"
+									value="#{pMB.selectedProduit.idProduit}"></f:param>
+							</p:graphicImage>
+						</p:column>
 					</p:row>
 
 					<p:row>
 						<p:column rowspan="1">
 							<h:outputText value="#{pMB.selectedProduit.idProduit}" />
 						</p:column>
+						
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="" />
+						</p:column>
+						
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="#{pMB.selectedProduit.quantite}" />
+						</p:column>
 					</p:row>
 
 					<p:row>
-						<p:column colspan="1" styleClass="ui-widget-header">
+						<p:column colspan="3" styleClass="ui-widget-header">
 							<p:spacer height="0" />
 						</p:column>
 					</p:row>
@@ -144,11 +178,27 @@
 						<p:column rowspan="1" style="font-weight: bold;">
 							<h:outputText value="Prix" />
 						</p:column>
+						
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="" />
+						</p:column>
+						
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="Catégorie" />
+						</p:column>
 					</p:row>
 
 					<p:row>
 						<p:column rowspan="1">
 							<h:outputText value="#{pMB.selectedProduit.prix}" />
+						</p:column>
+						
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="" />
+						</p:column>
+						
+						<p:column rowspan="1" style="font-weight: bold;">
+							<h:outputText value="#{pMB.selectedProduit.attCategorie.nomCategorie}" />
 						</p:column>
 					</p:row>
 
@@ -193,9 +243,11 @@
 					</c:forEach>
 				</h:selectOneMenu>
 
+				<p:fileUpload value="#{pMB.file}" mode="simple" />
+
 				<f:facet name="footer">
 					<p:commandButton value="Ajouter" action="#{pMB.addProduitByAgent}"
-						oncomplete="PF('addDialogPro').hide()" update="@all" />
+						oncomplete="PF('addDialogPro').hide()" update="@all" ajax="false" />
 				</f:facet>
 			</h:panelGrid>
 		</p:dialog>

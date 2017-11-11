@@ -20,5 +20,8 @@ public interface IProduitService {
 
 	// TODO updateProduit
 	public Produit updateProduitByAgent(Produit pro);
+	
+	public Produit getImageById(Long id);
+
 
 }

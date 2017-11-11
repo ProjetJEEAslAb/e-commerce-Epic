@@ -1,6 +1,9 @@
 package fr.adaming.dao;
 
+import java.awt.Image;
 import java.util.List;
+
+import com.mysql.jdbc.Connection;
 
 import fr.adaming.model.Agent;
 import fr.adaming.model.Produit;
@@ -21,4 +24,6 @@ public interface IProduitDao {
 
 	// TODO updateProduit
 	public Produit updateProduit(Produit pro);
+	
+	public Produit getImageById(Long id);
 }

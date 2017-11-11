@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,6 +39,11 @@ public class Produit implements Serializable {
 	@Column(name="qte_pro")
 	private int quantite;
 	
+	 // Image bytes
+	@Lob
+	@Column(name="img")
+    private byte[] imageBytes;
+   
 	@Column(name="select_pro",columnDefinition = "TINYINT(1)")
 	private boolean selectionne;
 
@@ -63,17 +69,22 @@ public class Produit implements Serializable {
 	}
 
 	// Sans id
-	public Produit(String designation, String description, double prix, int quantite, boolean selectionne) {
+	
+	public Produit(String designation, String description, double prix, int quantite, byte[] imageBytes,
+			boolean selectionne) {
 		super();
 		this.designation = designation;
 		this.description = description;
 		this.prix = prix;
 		this.quantite = quantite;
+		this.imageBytes = imageBytes;
 		this.selectionne = selectionne;
 	}
 
+	
+
 	// Avec id
-	public Produit(Long idProduit, String designation, String description, double prix, int quantite,
+	public Produit(Long idProduit, String designation, String description, double prix, int quantite,byte[] imageBytes,
 			boolean selectionne) {
 		super();
 		this.idProduit = idProduit;
@@ -81,8 +92,13 @@ public class Produit implements Serializable {
 		this.description = description;
 		this.prix = prix;
 		this.quantite = quantite;
+		this.imageBytes = imageBytes;
 		this.selectionne = selectionne;
 	}
+	
+	
+	
+	
 
 	// ============ 3. Getters et Setters ============
 	public String getDesignation() {
@@ -155,6 +171,14 @@ public class Produit implements Serializable {
 
 	public void setLigneCommande(List<LigneCommande> ligneCommande) {
 		this.ligneCommande = ligneCommande;
+	}
+
+	public byte[] getImageBytes() {
+		return imageBytes;
+	}
+
+	public void setImageBytes(byte[] imageBytes) {
+		this.imageBytes = imageBytes;
 	}
 	
 	

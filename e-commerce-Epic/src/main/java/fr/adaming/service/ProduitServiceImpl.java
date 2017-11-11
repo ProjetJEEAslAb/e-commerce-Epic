@@ -50,4 +50,9 @@ public class ProduitServiceImpl implements IProduitService {
 		// TODO updateProduit
 		return produitDao.updateProduit(pro);
 	}
+
+	@Override
+	public Produit getImageById(Long id) {
+		return produitDao.getImageById(id);
+	}
 }
