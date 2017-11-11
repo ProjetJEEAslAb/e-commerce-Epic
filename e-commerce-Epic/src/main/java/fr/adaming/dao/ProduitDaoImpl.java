@@ -104,36 +104,17 @@ public class ProduitDaoImpl implements IProduitDao {
 		return pro;
 	}
 
-	// ==========================methodes
-	// agent=============================================//
 	@Override
-	public Produit getProduitByIdByAgent(Produit pro) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
-	}
+	public Produit updateProduit(Produit pro) {
+		// TODO updateProduit
 
-	@Override
-	public Produit addProduitByAgent(Produit pro) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		// 1. Récupérer la session
+		Session hbs = sf.getCurrentSession();
 
-	@Override
-	public Produit deleteProduitByAgent(Produit pro) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		// 2. Modifier l'étudiant dans la base de données
+		hbs.saveOrUpdate(pro);
 
-	@Override
-	public Produit updateProduitByAgent(Produit pro) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<Produit> getAllProduitByAgent(Agent a) {
-		// TODO Auto-generated method stub
-		return null;
+		return pro;
 	}
 
 }

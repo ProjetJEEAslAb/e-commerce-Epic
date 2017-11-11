@@ -7,27 +7,18 @@ import fr.adaming.model.Produit;
 
 public interface IProduitDao {
 
-public List<Produit> GetAllProduits();
-	
-	public Produit getProduitById(Produit pro);
-	public int deleteProduit (Produit pro);
-	public Produit addProduitByLc(Produit pro);
-	
-	// ============= Méthodes pour Agent =============
-	// TODO getProduitById
-	public Produit getProduitByIdByAgent(Produit pro) throws Exception;
+	// TODO getAllProduit
+	public List<Produit> GetAllProduits();
 
-	// TODO addProduit
-	public Produit addProduitByAgent(Produit pro);
+	// TODO getProduitById
+	public Produit getProduitById(Produit pro);
 
 	// TODO deleteProduit
-	public Produit deleteProduitByAgent(Produit pro);
+	public int deleteProduit(Produit pro);
+
+	// TODO addProduit
+	public Produit addProduitByLc(Produit pro);
 
 	// TODO updateProduit
-	public Produit updateProduitByAgent(Produit pro);
-
-	// TODO getAllProduit
-	public List<Produit> getAllProduitByAgent(Agent a);
-		
-	
+	public Produit updateProduit(Produit pro);
 }

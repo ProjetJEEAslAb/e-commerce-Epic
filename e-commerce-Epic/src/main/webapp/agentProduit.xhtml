@@ -7,80 +7,89 @@
 	xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title>Page login</title>
+	<title>Page Login</title>
 </h:head>
 
 <h:body>
 
-	<!-- =========================== Liste des catégories en tableau =========================== -->
-
+	<!-- =========================== Liste des produits en tableau =========================== -->
 	<h:form>
 
 		<p:growl id="messages" autoUpdate="true" />
 
-		<p:dataTable id="listeCategorie" var="cat"
-			value="#{catMB.listeCategorie}" styleClass="tableau" editable="true"
-			widgetVar="tabCat" rowKey="#{cat.idCategorie}"
-			selection="#{catMB.selectedCategorie}" selectionMode="single"
-			emptyMessage="Pas de catégorie trouvée"
-			filteredValue="#{catMB.selectedCategories}">
+		<p:dataTable id="listeProduits" var="pro" value="#{pMB.listeProduit}"
+			styleClass="tableau" editable="true" widgetVar="tabPro"
+			rowKey="#{pro.idProduit}" selection="#{pMB.selectedProduit}"
+			selectionMode="single" emptyMessage="Pas de produit trouvé"
+			filteredValue="#{pMB.selectedProduits}">
 
-			<p:ajax event="rowEdit" listener="#{catMB.onRowEditCategorie}"
+			<p:ajax event="rowEdit" listener="#{pMB.onRowEditProduit}"
 				update="@all" />
 
 			<f:facet name="header">
 				<p:outputPanel>
 					<h:outputText value="Rechercher :" />
-					<p:inputText id="globalFilter" onkeyup="PF('tabCat').filter()"
+					<p:inputText id="globalFilter" onkeyup="PF('tabPro').filter()"
 						style="width:150px" placeholder="Mot-clé" />
 				</p:outputPanel>
 			</f:facet>
 
 			<p:column headerText="ID">
+				<h:outputText id="IdProOut" value="#{pro.idProduit}" />
+			</p:column>
+
+			<p:column headerText="Nom" filterBy="#{pro.designation}"
+				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText id="IdOut" value="#{cat.idCategorie}" />
+						<h:outputText value="#{pro.designation}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText id="Id" value="#{cat.idCategorie}" />
+						<p:inputText id="NomPro" value="#{pro.designation}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Nom" filterBy="#{cat.nomCategorie}"
+			<p:column headerText="Description" filterBy="#{pro.description}"
 				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{cat.nomCategorie}" />
+						<h:outputText value="#{pro.description}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText id="Nom" value="#{cat.nomCategorie}" />
+						<p:inputText id="DescriptionPro" value="#{pro.description}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Description" filterBy="#{cat.description}"
+			<p:column headerText="Prix" filterBy="#{pro.prix}"
 				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{cat.description}" />
+						<h:outputText value="#{pro.prix}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText id="Description" value="#{cat.description}" />
+						<p:inputText id="PrixPro" value="#{pro.prix}" />
 					</f:facet>
 				</p:cellEditor>
 			</p:column>
 
-			<p:column headerText="Responsable" filterBy="#{cat.attAgent.id}"
+			<p:column headerText="Quantité" filterBy="#{pro.quantite}"
 				filterMatchMode="contains">
 				<p:cellEditor>
 					<f:facet name="output">
-						<h:outputText value="#{cat.attAgent.id}" />
+						<h:outputText value="#{pro.quantite}" />
 					</f:facet>
 					<f:facet name="input">
-						<p:inputText id="Responsable" value="#{cat.attAgent.id}" />
+						<p:inputText id="QuantitePro" value="#{pro.quantite}" />
 					</f:facet>
 				</p:cellEditor>
+			</p:column>
+
+			<p:column headerText="Catégorie"
+				filterBy="#{pro.attCategorie.nomCategorie}"
+				filterMatchMode="contains">
+				<h:outputText value="#{pro.attCategorie.nomCategorie}" />
 			</p:column>
 
 			<p:column style="width:32px">
@@ -88,23 +97,22 @@
 			</p:column>
 		</p:dataTable>
 
-		<p:contextMenu for="listeCategorie" widgetVar="cMenu">
-			<p:menuitem value="Supprimer" update="listeCategorie"
-				icon="ui-icon-circle-minus"
-				actionListener="#{catMB.deleteCategorie}" />
-			<p:menuitem value="Voir" update="catDetail" icon="ui-icon-search"
-				oncomplete="PF('catDialog').show()" />
+		<p:contextMenu for="listeProduits" widgetVar="cMenu">
+			<p:menuitem value="Supprimer" update="listeProduits"
+				icon="ui-icon-circle-minus" actionListener="#{pMB.deleteProduit}" />
+			<p:menuitem value="Voir" update="proDetail" icon="ui-icon-search"
+				oncomplete="PF('proDialog').show()" />
 			<p:menuitem value="Ajouter" icon="ui-icon-circle-plus"
-				onclick="PF('addDialog').show()" />
+				onclick="PF('addDialogPro').show()" />
 			<p:menuitem value="Cacher" icon="ui-icon-close"
 				onclick="PF('cMenu').hide()" />
 		</p:contextMenu>
 
-		<p:dialog header="Catégorie" widgetVar="catDialog" modal="true"
+		<p:dialog header="Produit" widgetVar="proDialog" modal="true"
 			showEffect="fade" hideEffect="fade" resizable="false"
 			position="center top" draggable="true" width="500" height="300">
-			<p:outputPanel id="catDetail" style="text-align:center;">
-				<p:panelGrid rendered="#{not empty catMB.categorie}"
+			<p:outputPanel id="proDetail" style="text-align:center;">
+				<p:panelGrid rendered="#{not empty pMB.produit}"
 					columnClasses="label,value">
 
 					<f:facet name="header">
@@ -115,7 +123,7 @@
 
 					<p:row>
 						<p:column rowspan="1" style="font-weight: bold;">
-							<h:outputText value="#{catMB.selectedCategorie.nomCategorie}" />
+							<h:outputText value="#{pMB.produit.designation}" />
 						</p:column>
 
 						<p:column rowspan="5">Image en cours</p:column>
@@ -123,7 +131,7 @@
 
 					<p:row>
 						<p:column rowspan="1">
-							<h:outputText value="#{catMB.selectedCategorie.idCategorie}" />
+							<h:outputText value="#{pMB.produit.idProduit}" />
 						</p:column>
 					</p:row>
 
@@ -135,13 +143,13 @@
 
 					<p:row>
 						<p:column rowspan="1" style="font-weight: bold;">
-							<h:outputText value="Responsable" />
+							<h:outputText value="Prix" />
 						</p:column>
 					</p:row>
 
 					<p:row>
 						<p:column rowspan="1">
-							<h:outputText value="#{catMB.selectedCategorie.attAgent.id}" />
+							<h:outputText value="#{pMB.produit.prix}" />
 						</p:column>
 					</p:row>
 
@@ -153,7 +161,7 @@
 
 					<p:row>
 						<p:column colspan="7" style="text-align: center">
-							<h:outputText value="#{catMB.selectedCategorie.description}" />
+							<h:outputText value="#{pMB.produit.description}" />
 						</p:column>
 					</p:row>
 
@@ -161,26 +169,34 @@
 			</p:outputPanel>
 		</p:dialog>
 
-		<p:dialog header="Ajout de Catégorie" widgetVar="addDialog"
+		<p:dialog header="Ajout de Produit" widgetVar="addDialogPro"
 			resizable="false">
 			<h:panelGrid columns="2" cellpadding="5">
-				<p:inputText id="nom" value="#{catMB.categorie.nomCategorie}"
-					required="false" label="Nom" />
-				<p:watermark for="nom" value="Nom" />
+				<p:inputText id="nomPro" value="#{pMB.selectedProduit.designation}"
+					label="Nom" />
+				<p:watermark for="nomPro" value="Nom" />
 
-				<p:inputText id="desc" value="#{catMB.categorie.description}"
-					required="false" label="Description" />
-				<p:watermark for="desc" value="Description" />
+				<p:inputText id="descPro" value="#{pMB.selectedProduit.description}"
+					label="Description" />
+				<p:watermark for="descPro" value="Description" />
+
+				<p:inputText id="prixPro" value="#{pMB.selectedProduit.prix}"
+					label="Prix" />
+				<p:watermark for="prixPro" value="Prix" />
+
+				<p:inputText id="qtePro" value="#{pMB.selectedProduit.quantite}"
+					label="Quantité" />
+				<p:watermark for="qtePro" value="Quantité" />
 
 				<f:facet name="footer">
-					<p:commandButton value="Ajouter" action="#{catMB.addCategorie}"
-						oncomplete="PF('addDialog').hide()" update="@all" />
+					<p:commandButton value="Ajouter" action="#{pMB.addProduitByAgent}"
+						oncomplete="PF('addDialogPro').hide()" update="@all" />
 				</f:facet>
 			</h:panelGrid>
 		</p:dialog>
 
 	</h:form>
-
+	
 	<!-- =========================== Menu panier =========================== -->
 	<h:form>
 		<p:stack icon="/resources/images/stack.png" expanded="true">
@@ -188,8 +204,8 @@
 				url="accueilAgent.xhtml" />
 			<p:menuitem value="Produits" icon="/resources/images/add.png"
 				url="agentProduit.xhtml" />
-			<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
-				url="deleteAgent.xhtml" />
+			<p:menuitem value="Catégories" icon="/resources/images/delete.png"
+				url="accueilAgent.xhtml" />
 			<p:menuitem value="Chercher" icon="/resources/images/find.png"
 				url="findAgent.xhtml" />
 			<p:menuitem value="Modifier" icon="/resources/images/update.png"
@@ -200,5 +216,4 @@
 	</h:form>
 
 </h:body>
-
 </html>
