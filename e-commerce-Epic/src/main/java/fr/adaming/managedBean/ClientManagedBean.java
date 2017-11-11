@@ -47,8 +47,7 @@ public class ClientManagedBean implements Serializable {
 
 	// Constructeur vide
 	public ClientManagedBean() {
-	this.client = new Client();// instanciation du client sinon erreur no
-		// target unreachable;
+
 	}
 
 	// =======================================================================//
@@ -64,7 +63,7 @@ public class ClientManagedBean implements Serializable {
 
 		// recuperation du client a partir de la session
 		this.client = new Client();
-		this.client = (Client) session.getAttribute("clientSession");
+		//this.client = (Client) session.getAttribute("clientSession");
 
 	}
 
@@ -89,6 +88,18 @@ public class ClientManagedBean implements Serializable {
 
 	public void setClientService(IClientService clientService) {
 		this.clientService = clientService;
+	}
+
+	public IProduitService getProduitService() {
+		return produitService;
+	}
+
+	public HttpSession getSession() {
+		return session;
+	}
+
+	public void setSession(HttpSession session) {
+		this.session = session;
 	}
 
 	public Client getClient() {

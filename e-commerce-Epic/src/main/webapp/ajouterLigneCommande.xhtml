@@ -14,121 +14,117 @@
 
 
 
-<h:body  styleClass="flex">
+<h:body styleClass="flex">
 
-	<h1 style="color:#009999; text-align: center">Formulaire d'ajout
+
+	<h1 style="color: #009999; text-align: center">Formulaire d'ajout
 		de commandes</h1>
+
+
 
 	<h:form>
 		<p:growl id="messages" autoUpdate="true" />
 		<h:panelGrid columns="2" styleClass="centered">
-
-			<p:outputLabel for="quantiteId" value="Quantite produit: " />
-			<p:inputMask id="quantiteId" value="#{lcMB.ligneCommande.quantite}" />
 
 			<p:outputLabel for="idId" value="ID produit: " />
 			<p:inputMask id="idId" value="#{lcMB.id_produit}" />
 
+			<p:outputLabel for="quantiteId" value="Quantite produit: " />
+			<p:inputMask id="quantiteId" value="#{lcMB.ligneCommande.quantite}" />
+
 			<p:commandButton value="ajouter ligne de commande"
-				action="#{lcMB.ajouterLigneCommande}" update ="@all" icon="ui-icon-disk" />
-				
+				action="#{lcMB.ajouterLigneCommande}" update="@all"
+				icon="ui-icon-disk" />
+
 		</h:panelGrid>
 	</h:form>
-		<!-- =========================== commandes =========================== -->
-	
-	<h:form>
-		<p:growl id="messages" autoUpdate="true" />
-		<h:panelGrid columns="2" styleClass="centered">
+	<div class="tableaux">
+		<div id="left">
+			<!-- =========================== Liste des produits =========================== -->
 
-		
-		<p:outputLabel for="dateCommandeId" value="date de la commande: " />
-		<p:inputMask id="dateCommandeId" value="#{coMB.commande.dateCommande}" />
-				
-			<p:commandButton value="ajouter commande"
-				action="#{coMB.ajouterCommande}" update ="@all" icon="ui-icon-disk" />
-		</h:panelGrid>
-	</h:form>
+			<h2 style="color: #cc6600; text-align: center">PokeProduits</h2>
+			<h:form>
+				<p:dataTable id="ListeP" var="pro" value="#{pMB.listeProduit}"
+					rowKey="#{pro.idProduit}"
+					rowStyleClass="#{pro.quantite le 10 ? 'empty' : null}"
+					update="@all">
 
-	<!-- =========================== Liste des produits =========================== -->
-	<h:form>
-		<p:dataTable id="ListeP" var="pro" value="#{pMB.listeProduit}"
-			rowKey="#{pro.idProduit}"
-			rowStyleClass="#{pro.quantite le 10 ? 'empty' : null}" update="@all">
+					<p:column headerText="ID" width="5%">
+						<h:outputText value="#{pro.idProduit}" />
+					</p:column>
 
-			<p:column selectionMode="multiple"
-				style="width:16px;text-align:center" />
+					<p:column headerText="Nom" filterBy="#{pro.designation}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pro.designation}" />
+					</p:column>
 
-			<p:column headerText="ID" width="3%">
-				<h:outputText value="#{pro.idProduit}" />
-			</p:column>
+					<p:column headerText="Description" filterBy="#{pro.description}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pro.description}" />
+					</p:column>
 
-			<p:column headerText="Nom" filterBy="#{pro.designation}"
-				filterMatchMode="contains">
-				<h:outputText value="#{pro.designation}" />
-			</p:column>
+					<p:column headerText="Prix" filterBy="#{pro.prix}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pro.prix}" />
+					</p:column>
 
-			<p:column headerText="Description" filterBy="#{pro.description}"
-				filterMatchMode="contains">
-				<h:outputText value="#{pro.description}" />
-			</p:column>
-
-			<p:column headerText="Prix" filterBy="#{pro.prix}"
-				filterMatchMode="contains">
-				<h:outputText value="#{pro.prix}" />
-			</p:column>
-
-			<p:column headerText="Quantité" filterBy="#{pro.quantite}"
-				filterMatchMode="contains">
-				<h:outputText value="#{pro.quantite}" />
-			</p:column>
-
-		</p:dataTable>
-		
-		
+					<p:column headerText="Quantité" filterBy="#{pro.quantite}"
+						filterMatchMode="contains">
+						<h:outputText value="#{pro.quantite}" />
+					</p:column>
+				</p:dataTable>
+			</h:form>
+		</div>
+		<div class="middle"><br/></div>
 		<!-- =========================== Panier en cours =========================== -->
-		
-	</h:form>
-	
-	<h1 style="color: #009999; text-align: center">
-		Panier
-		<h:graphicImage value="resTest/h.gif" width="8%" length="8%"
-			style="position:relative; bottom:-20px;left:40px" />
-	</h1>
+		<br /> <br /> <br /> <br /> <br /> <br />
+
+		<div id="right">
+			<h2 style="color: #cc6600; text-align: center">
+				PokePanier
+				<h:graphicImage value="resTest/h.gif" width="8%" length="8%"
+					style="position:relative; bottom:-20px;left:40px" />
+			</h2>
+			<h:form>
+				<p:dataTable id="listeLigneCommandeAttente" var="panier"
+					value="#{lcMB.listeLigneCommandeAttente}">
+
+					<p:column headerText="Id de la ligne de commande">
+						<h:outputText value="#{panier.id_lc}" />
+					</p:column>
+
+					<p:column headerText="designation">
+						<h:outputText value="#{panier.attProduit.designation}" />
+					</p:column>
+
+					<p:column headerText="ID produit">
+						<h:outputText value="#{panier.idProduit}" />
+					</p:column>
+
+					<p:column headerText="Quantite produit">
+						<h:outputText value="#{panier.quantite}" />
+					</p:column>
+
+					<p:column headerText="Prix total">
+						<h:outputText value="#{panier.prix}" />
+					</p:column>
+
+					<p:column headerText="Etat">
+						<h:outputText value="#{panier.valide}" />
+					</p:column>
+
+				</p:dataTable>
+			</h:form>
+
+			<p:commandButton value="Consulter panier" action="panier"
+				icon="ui-icon-disk" style="align:center" update="@all" />
+		</div>
+	</div>
+
+	<!-- =========================== Pannel =========================== -->
+
 	<h:form>
-		<p:dataTable id="listeLigneCommandeAttente" var="panier"
-			value="#{lcMB.listeLigneCommandeAttente}">
-
-			<p:column headerText="Id de la ligne de commande" width="3%">
-				<h:outputText value="#{panier.id_lc}" />
-			</p:column>
-
-			<p:column headerText="designation">
-				<h:outputText value="#{panier.attProduit.designation}" />
-			</p:column>
-
-			<p:column headerText="Quantite produit">
-				<h:outputText value="#{panier.quantite}" />
-			</p:column>
-
-			<p:column headerText="Prix total">
-				<h:outputText value="#{panier.prix}" />
-			</p:column>
-
-			<p:column headerText="Etat">
-				<h:outputText value="#{panier.valide}" />
-			</p:column>
-
-		</p:dataTable>
-	</h:form>
-
-	<p:commandButton value="Consulter panier" action="panier"
-		icon="ui-icon-disk" update="@all" />
-	
-
-	<h:form>
-		
-			
-	<br/>
+		<br />
 		<p:dock position="bottom">
 			<p:menuitem value="Accueil" icon="/resources/images/home.png"
 				url="accueilClient.xhtml" />
@@ -143,7 +139,7 @@
 			<p:menuitem value="Logout" icon="/resources/images/logout.png"
 				action="#{cMB.seDeconnecterClient}" />
 		</p:dock>
-		<br/>
+		<br />
 	</h:form>
 </h:body>
 </html>
