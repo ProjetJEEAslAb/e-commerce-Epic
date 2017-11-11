@@ -54,22 +54,22 @@
 					</p:column>
 
 					<p:column headerText="Nom" filterBy="#{pro.designation}"
-						filterMatchMode="contains">
+						filterMatchMode="contains" width="10%">
 						<h:outputText value="#{pro.designation}" />
 					</p:column>
 
 					<p:column headerText="Description" filterBy="#{pro.description}"
-						filterMatchMode="contains">
+						filterMatchMode="contains" width="10%">
 						<h:outputText value="#{pro.description}" />
 					</p:column>
 
 					<p:column headerText="Prix" filterBy="#{pro.prix}"
-						filterMatchMode="contains">
+						filterMatchMode="contains" width="8%">
 						<h:outputText value="#{pro.prix}" />
 					</p:column>
 
 					<p:column headerText="Quantité" filterBy="#{pro.quantite}"
-						filterMatchMode="contains">
+						filterMatchMode="contains" width="8%">
 						<h:outputText value="#{pro.quantite}" />
 					</p:column>
 				</p:dataTable>
@@ -89,27 +89,23 @@
 				<p:dataTable id="listeLigneCommandeAttente" var="panier"
 					value="#{lcMB.listeLigneCommandeAttente}">
 
-					<p:column headerText="Id de la ligne de commande">
+					<p:column headerText="ID(ligne de commande)" width="8%">
 						<h:outputText value="#{panier.id_lc}" />
 					</p:column>
 
-					<p:column headerText="designation">
+					<p:column headerText="designation" width="10%">
 						<h:outputText value="#{panier.attProduit.designation}" />
 					</p:column>
 
-					<p:column headerText="ID produit">
-						<h:outputText value="#{panier.idProduit}" />
-					</p:column>
-
-					<p:column headerText="Quantite produit">
+					<p:column headerText="Quantite produit" width="8%">
 						<h:outputText value="#{panier.quantite}" />
 					</p:column>
 
-					<p:column headerText="Prix total">
+					<p:column headerText="Prix total" width="8%">
 						<h:outputText value="#{panier.prix}" />
 					</p:column>
 
-					<p:column headerText="Etat">
+					<p:column headerText="Etat" width="8%">
 						<h:outputText value="#{panier.valide}" />
 					</p:column>
 
