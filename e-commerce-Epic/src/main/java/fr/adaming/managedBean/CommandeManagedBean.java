@@ -1,6 +1,7 @@
 package fr.adaming.managedBean;
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import javax.annotation.PostConstruct;
@@ -14,7 +15,6 @@ import javax.servlet.http.HttpSession;
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
 import fr.adaming.model.LigneCommande;
-import fr.adaming.model.Produit;
 import fr.adaming.service.IClientService;
 import fr.adaming.service.ICommandeService;
 
@@ -115,26 +115,33 @@ public class CommandeManagedBean implements Serializable {
 	// =======================================================================//
 	// methodes
 
+	@SuppressWarnings("unused")
 	public String ajouterCommande() {
 
 		// ajouter le client dans la session
 		this.client = (Client) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("clientSession");
-
+		
+	
+		
+		Date dateCommande = new Date();
+		
+		Commande co=commandeService.addCommande(this.commande, this.client);
+		
+		co.setDateCommande(dateCommande);
+		co.setClient(this.client);
+		
 		System.out.println("comande managedBean : " + commande);
 
-		this.commande.setClient(this.client);
-		// ajouter commande
-		Commande co = commandeService.addCommande(this.commande, this.client);
-
 		if (co != null) {
+
+			System.out.println("==============================="+dateCommande);
 			
-			Date dateCommande = new Date();
-			co.setDateCommande(dateCommande);
 			return "ajouterLigneCommande";
 
 		} else {
 
 			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("L'ajout a échoué"));
+			
 			return "accueilgeneral";
 
 		}

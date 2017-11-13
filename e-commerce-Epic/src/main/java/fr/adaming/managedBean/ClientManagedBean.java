@@ -128,7 +128,7 @@ public class ClientManagedBean implements Serializable {
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage("l'identifiant et/ou le mot de passe est erroné"));
 		}
-		return "accueilGeneral";
+		return "seConnecter";
 	}
 
 	public String seConnecterClientPanier() {
@@ -139,14 +139,14 @@ public class ClientManagedBean implements Serializable {
 			// ajouter le client dans la session
 			FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("clientSession", client_out);
 
-			return "panier";
+			return "ajouterLigneCommande";
 
 		} catch (Exception e) {
 			e.printStackTrace();
 			FacesContext.getCurrentInstance().addMessage(null,
 					new FacesMessage("l'identifiant et/ou le mot de passe est erroné"));
 		}
-		return "accueilGeneral";
+		return "seConnecter";
 	}
 
 	// la methode pour se deconnecter

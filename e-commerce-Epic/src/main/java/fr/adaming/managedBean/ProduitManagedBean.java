@@ -23,6 +23,7 @@ import fr.adaming.model.LigneCommande;
 import fr.adaming.model.Produit;
 import fr.adaming.service.ICategorieService;
 import fr.adaming.service.IProduitService;
+import fr.adaming.service.LigneCommandeServiceImpl;
 
 @ManagedBean(name = "pMB")
 
@@ -389,14 +390,16 @@ public class ProduitManagedBean implements Serializable {
 	public void onRowEditProduit(RowEditEvent event) {
 
 		Produit proEdit = (Produit) (event.getObject());
-
+		LigneCommande ligneEdit = (LigneCommande) event.getObject();
+		
 		proEdit.setImageBytes(file.getContents());
 		
 		produitService.updateProduitByAgent(proEdit);
 
 		this.listeProduit = produitService.GetAllProduits();
 		this.agentSession.setAttribute("produitListe", this.listeProduit);
-
+		this.clientSession.setAttribute("produitListe", this.ligneCommande);
+		
 		FacesMessage msg = new FacesMessage(
 				"Produit édité : " + proEdit.getIdProduit() + " " + proEdit.getDesignation());
 		FacesContext.getCurrentInstance().addMessage(null, msg);

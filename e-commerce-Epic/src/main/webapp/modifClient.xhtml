@@ -24,13 +24,16 @@
 
 	<h1 style="color:#009999; text-align: center">
 		Formulaire de modification
+		<br/>		<br/>
+		
 		<h:graphicImage value="resTest/tumblr_n7f383vqpW1r5iumyo1_1280.gif"
 			width="8%" length="8%"
 			style="position:relative; bottom:-20px;left:40px" />
 	</h1>
 
 	<h:form>
-		<h:panelGrid columns="2" styleClass="centered">
+	<div align="center">
+		<h:panelGrid columns="2" styleClass="centered" >
 
 			<p:outputLabel for="idId" value="Id: " />
 			<p:inputMask id="idId" value="#{cMB.client.id}" />
@@ -55,6 +58,7 @@
 				action="#{cMB.modifierClient}" icon="ui-icon-disk" />
 
 		</h:panelGrid>
+		</div>
 	</h:form>
 
 	<h4>

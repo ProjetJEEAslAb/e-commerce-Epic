@@ -13,68 +13,91 @@
 </h:head>
 
 <h:body styleClass="flex">
-
-
-<!-- tracer la ligne horizontale -->
-			<p:separator />
-			
-		<!-- espacer les elements -->
-			<p:spacer height="20" />
-		<br/>
-		<br/>
-
-<h1 style="color:#009999; text-align:left"> Inscription</h1>
-
-	<h:form>
-		<h:panelGrid columns="2" styleClass="centered" style="border:solid; border-color:#2d862d">
-
-			<p:outputLabel for="nomId" value="Nom: " />
-			<p:inputMask id="nomId" value="#{cMB.client.nom}" />
-
-			<p:outputLabel for="mailId" value="Identifiant: " />
-			<p:inputMask id="mailId" value="#{cMB.client.mail}" />
-			
-			<p:outputLabel for="telephoneId" value="Telephone: " />
-			<p:inputMask id="telephoneId" value="#{cMB.client.tel}" />
-			
-			<p:outputLabel for="passwordId" value="Password: " />
-			<p:inputMask id="passwordId" value="#{cMB.client.mdp}" />
-			
-			<p:outputLabel for="confirmPasswordId" value="Confirmer Password: " />
-			<p:inputMask id="confirmPasswordId" value="#{cMB.client.mdp}" />
-			
-			
-  			<p:commandButton value="Valider" action="#{cMB.ajouterClient}"  icon="ui-icon-disk" />
- 
-		</h:panelGrid>
-	</h:form>
-
-
-<h1 style="color:#009999;text-align:left">Connection</h1>
-
-	<h:form>
-		<h:panelGrid columns="2" styleClass="centered" style="border:solid; border-color:#2d862d">
-
-		
-			<p:outputLabel for="mailId" value="Identifiant: " />
-			<p:inputMask id="mailId" value="#{cMB.client.mail}" />
-			
-			<p:outputLabel for="passwordId" value="Password: " />
-			<p:inputMask id="passwordId" value="#{cMB.client.mdp}" />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<br />
+	<div class="tableaux" align="center">
+		<div class="middle">
+			<br />
+		</div>
+		<div class="middle">
+			<br />
+		</div>
+		<h:form>
+			<h1 style="color: #cc6600; text-align: center">Inscription</h1>
+			<h:panelGrid columns="2" styleClass="center"
+				style="border:solid;  border-color:#009999;  background-color:#ffe6cc">
 				
-  			<p:commandButton value="Login" action="#{cMB.seConnecterClientPanier}" icon="ui-icon-disk"  />
- 
-		</h:panelGrid>
-	</h:form>
+				<p:outputLabel for="nomId" value="Nom: " />
+				<p:inputMask id="nomId" value="#{cMB.client.nom}" />
 
-<h:form>
+				<p:outputLabel for="mailId" value="Identifiant: " />
+				<p:inputMask id="mailId" value="#{cMB.client.mail}" />
+
+				<p:outputLabel for="telephoneId" value="Telephone: " />
+				<p:inputMask id="telephoneId" value="#{cMB.client.tel}" />
+
+				<p:outputLabel for="passwordId" value="Password: " />
+				<p:inputMask id="passwordId" value="#{cMB.client.mdp}" />
+
+				<p:outputLabel for="confirmPasswordId" value="Confirmer Password: " />
+				<p:inputMask id="confirmPasswordId" value="#{cMB.client.mdp}" />
+
+
+				<p:commandButton value="Valider" action="#{cMB.ajouterClient}"
+					icon="ui-icon-disk" />
+
+			</h:panelGrid>
+
+		</h:form>
+
+		<div class="middle">
+			<br />
+		</div>
+		<div class="bordure_verticale ">
+			<br />
+	
+		</div>
+		<div class="middle">
+			<br />
+		</div>
+
+		<h:form>
+
+			<h1 style="color: #cc6600; text-align: center">Connection</h1>
+			<br />
+			<br />
+			<br />
+
+			<h:panelGrid columns="2" styleClass="centered"
+				style="border:solid; border-color:#009999; background-color: #ffe6cc">
+
+				<p:outputLabel for="mailId" value="Identifiant: " />
+				<p:inputMask id="mailId" value="#{cMB.client.mail}" />
+
+				<p:outputLabel for="passwordId" value="Password: " />
+				<p:inputMask id="passwordId" value="#{cMB.client.mdp}" />
+
+				<p:commandButton value="Login"
+					action="#{cMB.seConnecterClientPanier}" icon="ui-icon-disk" />
+
+			</h:panelGrid>
+		</h:form>
+	</div>
+
+	<h:form>
 		<p:dock position="bottom">
 			<p:menuitem value="Accueil" icon="/resources/images/home.png"
 				url="accueilGeneral.xhtml" />
 		</p:dock>
 	</h:form>
-<h4><h:messages style="color:red"></h:messages></h4>
-	
+	<h4>
+		<h:messages style="color:red"></h:messages>
+	</h4>
+
 
 </h:body>
 

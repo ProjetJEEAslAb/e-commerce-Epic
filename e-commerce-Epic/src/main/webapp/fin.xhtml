@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Page fin</title>
+</h:head>
+
+<h:body>
+
+
+
+	<h:form>
+		<p:dataTable id="listeLigneCommande" var="panier"
+			value="#{lcMB.listeLigneCommande}">
+
+			<p:column headerText="Id de la ligne de commande" width="3%">
+				<h:outputText value="#{panier.id_lc}" />
+			</p:column>
+
+			<p:column headerText="designation">
+				<h:outputText value="#{panier.attProduit.designation}" />
+			</p:column>
+
+			<p:column headerText="Quantite produit">
+				<h:outputText value="#{panier.quantite}" />
+			</p:column>
+
+			<p:column headerText="Prix total">
+				<h:outputText value="#{panier.prix}" />
+			</p:column>
+
+			<p:column headerText="Etat">
+				<h:outputText value="#{panier.valide}" />
+			</p:column>
+
+			<p:column headerText="Date">
+				<h:outputText value="#{panier.ligneCommande.commande.dateCommande}" />
+			</p:column>
+		</p:dataTable>
+
+		<p:commandButton value="DownloadFacture" ajax="false"
+			onclick="PrimeFaces.monitorDownload(start, stop);"
+			action="#{lcMB.facture}" icon="ui-icon-arrowthick-1-s">
+			<p:fileDownload value="#{facture.file}" />
+		</p:commandButton>
+	</h:form>
+
+	<script type="text/javascript">
+		function start() {
+			PF('statusDialog').show();
+		}
+
+		function stop() {
+			PF('statusDialog').hide();
+		}
+	</script>
+
+</h:body>
+
+</html>

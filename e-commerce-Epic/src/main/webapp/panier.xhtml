@@ -55,30 +55,53 @@
 
 		</p:dataTable>
 	</h:form>
+	<h:form>
+		<p:commandButton value="Valider la commande" action="#{lcMB.Valider}"
+			icon="ui-icon-disk" update="@all" />
+	</h:form>
+	<h:form>
+		<p:commandButton value="Annuler la commande" action="#{lcMB.Annuler}"
+			icon="ui-icon-disk" update="@all" />
+	</h:form>
 
-	<p:commandButton value="Valider la commande" action="#{lcMB.Valider}"
-		icon="ui-icon-disk" update="@all" />
-	<p:commandButton value="Annuler la commande" action="#{lcMB.Annuler}"
-		icon="ui-icon-disk" update="@all" />
-		
+	<h:form>
+		<p:commandButton value="DownloadFacture" ajax="false"
+			onclick="PrimeFaces.monitorDownload(start, stop);"
+			action="#{lcMB.facture}" icon="ui-icon-arrowthick-1-s">
+			<p:fileDownload value="#{facture.file}" />
+		</p:commandButton>
+	</h:form>
 
-		<h:form >
-				<p:dock >
-					<p:menuitem value="Accueil" icon="/resources/images/home.png"
-						url="accueilClient.xhtml" />
-					<p:menuitem value="Panier" icon="/resources/images/find.png"
-						url="panier.xhtml" />
-					<p:menuitem value="Acheter" icon="/resources/images/add.png"
-						url="ajouterLigneCommande.xhtml" />
-					<p:menuitem value="Modifier" icon="/resources/images/update.png"
-						url="modifClient.xhtml" />
-					<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
-						url="supClient.xhtml" />
-					<p:menuitem value="Logout" icon="/resources/images/logout.png"
-						action="#{cMB.seDeconnecterClient}" />
-				</p:dock>
-			</h:form>
-	
+	<!-- =================================contacter agent======================== -->
+	<br />
+
+	<h:form>
+		<h2 style="color: #e67700">Contacter l'Agent</h2>
+		<p:inputTextarea rows="5" cols="30" counter="display" maxlength="150"
+			counterTemplate="{0} characters remaining." autoResize="false" />
+		<h:outputText id="display" />
+		<br/>
+		<p:commandButton value="Envoyer" action="#{lcMB.Annuler}"
+			icon="ui-icon-disk" update="@all" />
+	</h:form>
+
+	<h:form>
+		<p:dock>
+			<p:menuitem value="Accueil" icon="/resources/images/home.png"
+				url="accueilClient.xhtml" />
+			<p:menuitem value="Panier" icon="/resources/images/find.png"
+				url="panier.xhtml" />
+			<p:menuitem value="Acheter" icon="/resources/images/add.png"
+				url="ajouterLigneCommande.xhtml" />
+			<p:menuitem value="Modifier" icon="/resources/images/update.png"
+				url="modifClient.xhtml" />
+			<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
+				url="supClient.xhtml" />
+			<p:menuitem value="Logout" icon="/resources/images/logout.png"
+				action="#{cMB.seDeconnecterClient}" />
+		</p:dock>
+	</h:form>
+
 </h:body>
 
 </html>

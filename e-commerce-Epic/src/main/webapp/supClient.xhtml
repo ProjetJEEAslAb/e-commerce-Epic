@@ -22,22 +22,24 @@
 	<br />
 	<br />
 
-	<h1 style="color:#009999; text-align: center">
+	<h1 style="color: #009999; text-align: center">
 		Formulaire de suppression
 		<h:graphicImage value="resTest/q.gif" width="8%" length="8%"
 			style="position:relative; bottom:-20px;left:40px" />
 	</h1>
-
+<br/><br/>
 	<h:form>
-		<h:panelGrid columns="2" styleClass="centered">
+		<div align="center">
+			<h:panelGrid columns="2" styleClass="centered">
 
-			<p:outputLabel for="idId" value="Id: " />
-			<p:inputMask id="idId" value="#{cMB.client.id}" />
+				<p:outputLabel for="idId" value="Id: " />
+				<p:inputMask id="idId" value="#{cMB.client.id}" />
 
-			<p:commandButton value="Supprimer un client"
-				action="#{cMB.suprimerClient}" icon="ui-icon-disk" />
+				<p:commandButton value="Supprimer un client"
+					action="#{cMB.suprimerClient}" icon="ui-icon-disk" />
 
-		</h:panelGrid>
+			</h:panelGrid>
+		</div>
 	</h:form>
 
 	<h4>

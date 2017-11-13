@@ -15,37 +15,12 @@
 
 	<!-- ============================ les produits  ============================ -->
 
+	<h1 style="color: #009999; text-align: center">PokéClient</h1>
 	<p:layout style="min-width:400px;min-height:700px;">
-
-		<p:layoutUnit position="south" resizable="true" size="150"
-			minSize="40" maxSize="200">
-
-			<h:form>
-				<p:dock position="bottom">
-					<p:menuitem value="Accueil" icon="/resources/images/home.png"
-						url="accueilClient.xhtml" />
-					<p:menuitem value="Panier" icon="/resources/images/find.png"
-						url="panier.xhtml" />
-					<p:menuitem value="Acheter" icon="/resources/images/add.png"
-						url="ajouterLigneCommande.xhtml" />
-					<p:menuitem value="Rechercher" icon="/resources/images/add.png"
-						url="rechercherLigneCommande.xhtml" />
-					<p:menuitem value="Modifier" icon="/resources/images/update.png"
-						url="modifClient.xhtml" />
-					<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
-						url="supClient.xhtml" />
-					<p:menuitem value="Logout" icon="/resources/images/logout.png"
-						action="#{cMB.seDeconnecterClient}" />
-				</p:dock>
-			</h:form>
-			
-		</p:layoutUnit>
-
 		<p:layoutUnit position="center">
-
 			<h:form id="form">
 
-				<p:dataGrid var="pro" value="#{pMB.listeProduit}" columns="3"
+				<p:dataGrid var="pro" value="#{pMB.listeProduit}" columns="6"
 					layout="grid" rows="12" id="cat">
 
 					<f:facet name="header">
@@ -75,16 +50,22 @@
 							columnClasses="label,value">
 
 							<h:outputText value="Id produit :" />
-							<h:outputText value="#{pMB.produit.idProduit}" />
+							<h:outputText value="#{pMB.selectedProduit.idProduit}" />
 
 							<h:outputText value="Description :" />
-							<h:outputText value="#{pMB.produit.description}" />
+							<h:outputText value="#{pMB.selectedProduit.description}" />
 
 							<h:outputText value="Prix :" />
-							<h:outputText value="#{pMB.produit.prix}" />
+							<h:outputText value="#{pMB.selectedProduit.prix}" />
 
 							<h:outputText value="En stock :" />
-							<h:outputText value="#{pMB.produit.quantite}" />
+							<h:outputText value="#{pMB.selectedProduit.quantite}" />
+							
+							<p:graphicImage value="#{iMB.image}" width="300">
+								<f:param name="idProduit"
+									value="#{pMB.selectedProduit.idProduit}"></f:param>
+							</p:graphicImage>
+							
 						</p:panelGrid>
 					</p:outputPanel>
 					<b><p:commandLink value="Ajouter au panier"
@@ -93,12 +74,27 @@
 							styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
 							update="@all" /></b>
 				</p:dialog>
-
 			</h:form>
-
 		</p:layoutUnit>
 	</p:layout>
-
+	<h:form>
+		<p:dock position="bottom">
+			<p:menuitem value="Accueil" icon="/resources/images/home.png"
+				url="accueilClient.xhtml" />
+			<p:menuitem value="Panier" icon="/resources/images/find.png"
+				url="panier.xhtml" />
+			<p:menuitem value="Acheter" icon="/resources/images/add.png"
+				url="ajouterLigneCommande.xhtml" />
+			<p:menuitem value="Rechercher" icon="/resources/images/add.png"
+				url="rechercherLigneCommande.xhtml" />
+			<p:menuitem value="Modifier" icon="/resources/images/update.png"
+				url="modifClient.xhtml" />
+			<p:menuitem value="Supprimer" icon="/resources/images/delete.png"
+				url="supClient.xhtml" />
+			<p:menuitem value="Logout" icon="/resources/images/logout.png"
+				action="#{cMB.seDeconnecterClient}" />
+		</p:dock>
+	</h:form>
 </h:body>
 
 </html>

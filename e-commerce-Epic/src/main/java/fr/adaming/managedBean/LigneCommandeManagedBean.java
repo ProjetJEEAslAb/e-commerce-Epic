@@ -1,6 +1,10 @@
 package fr.adaming.managedBean;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -8,10 +12,15 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 import javax.servlet.http.HttpSession;
 
+import org.dom4j.DocumentException;
+
+import com.itextpdf.text.Document;
+import com.itextpdf.text.PageSize;
+import com.itextpdf.text.Paragraph;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import fr.adaming.model.Client;
 import fr.adaming.model.Commande;
@@ -24,7 +33,7 @@ import fr.adaming.service.IProduitService;
 
 @ManagedBean(name = "lcMB")
 @RequestScoped
-public class LigneCommandeManagedBean implements Serializable{
+public class LigneCommandeManagedBean implements Serializable {
 
 	/**
 	 * 
@@ -35,10 +44,10 @@ public class LigneCommandeManagedBean implements Serializable{
 	// injection dependance
 	@ManagedProperty(value = "#{lcService}")
 	private ILigneCommandeService ligneCommandeService;
-	
+
 	@ManagedProperty(value = "#{proService}")
 	private IProduitService prodService;
-	
+
 	@ManagedProperty(value = "#{coService}")
 	private ICommandeService commandeService;
 	// =======================================================================//
@@ -52,7 +61,6 @@ public class LigneCommandeManagedBean implements Serializable{
 	private Commande commande;
 	private Client client;
 
-
 	// Pour l'affichage des tables
 	private boolean indice = false;
 	// =======================================================================//
@@ -60,7 +68,7 @@ public class LigneCommandeManagedBean implements Serializable{
 
 	public LigneCommandeManagedBean() {
 		this.ligneCommande = new LigneCommande();
-		this.commande=new Commande();
+		this.commande = new Commande();
 	}
 	// =======================================================================//
 
@@ -73,14 +81,12 @@ public class LigneCommandeManagedBean implements Serializable{
 		// Récupération du client à partir de la session
 		this.client = (Client) clientSession.getAttribute("clientSession");
 		this.listeLigneCommande = ligneCommandeService.GetAllLigneCommande(this.client);
-		this.listeLigneCommandeAttente=ligneCommandeService.getLigneCommande(this.client);
-		
+		this.listeLigneCommandeAttente = ligneCommandeService.getLigneCommande(this.client);
+
 	}
 
 	// =======================================================================//
 	// getters et setters
-
-
 
 	public void setLigneCommandeService(ILigneCommandeService ligneCommandeService) {
 		this.ligneCommandeService = ligneCommandeService;
@@ -145,7 +151,7 @@ public class LigneCommandeManagedBean implements Serializable{
 	public void setId_produit(Long id_produit) {
 		this.id_produit = id_produit;
 	}
-	
+
 	public List<LigneCommande> getListeLigneCommandeAttente() {
 		return listeLigneCommandeAttente;
 	}
@@ -172,8 +178,6 @@ public class LigneCommandeManagedBean implements Serializable{
 	// =======================================================================//
 	// methodes
 
-	
-
 	public String rechercherLigneCommande() {
 
 		try {
@@ -194,24 +198,27 @@ public class LigneCommandeManagedBean implements Serializable{
 	public String ajouterLigneCommande() {
 
 		try {
-			
+
 			// ajouter le client dans la commande
 			this.commande.setClient(this.client);
-			
-			//ajout de commande 
-			this.commande=commandeService.addCommande(this.commande, this.client);
-			
+
+			Date dateCommande = new Date();
+			this.commande.setDateCommande(dateCommande);
+
+			// ajout de commande
+			this.commande = commandeService.addCommande(this.commande, this.client);
+
 			// Ajouter les informations dans this.panier
 			Produit prodAjout = new Produit();
 			prodAjout.setIdProduit(this.id_produit);
 			this.ligneCommande.setAttProduit(prodAjout);
 			prodAjout = prodService.getProduitById(prodAjout);
 			this.ligneCommande.setPrix(prodAjout.getPrix() * this.ligneCommande.getQuantite());
-			
+
 			this.ligneCommande.setAttCommande(this.commande);
-			this.ligneCommande = ligneCommandeService.addLigneCommandePanier(this.ligneCommande,this.commande);
-		
-			//actualiser la liste
+			this.ligneCommande = ligneCommandeService.addLigneCommandePanier(this.ligneCommande, this.commande);
+
+			// actualiser la liste
 			this.listeLigneCommandeAttente = ligneCommandeService.getLigneCommande(this.client);
 
 			return "ajouterLigneCommande";
@@ -325,35 +332,36 @@ public class LigneCommandeManagedBean implements Serializable{
 
 	}
 
-//	//========================panier en attente===========================//
+	// //========================panier en attente===========================//
 
-//	public String ValiderCommandeEnAttente() {
-//
-//		double sommePrixTotal = 0;
-//		for (LigneCommande ligne : this.listeLigneCommande) {
-//			if (ligne.getValide().equals("En attente")) {
-//
-//				// Récupérer le produit commandé
-//				Produit prodValide = ligne.getAttProduit();
-//				prodValide = prodService.getProduitById(prodValide);
-//				prodValide.setQuantite(prodValide.getQuantite() - ligne.getQuantite());
-//				
-//				// Actualiser la liste à afficher
-//				this.listeLigneCommandeAttente = (List<LigneCommande>) ligneCommandeService.getLigneCommande(this.client);
-//				//FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listeLigneCommandeAttente", listeAttente);
-//
-//			} else {
-//				continue;
-//			}
-//
-//		}
-//
-//		return "ajouterLigneCommande";
-//
-//	}
-	
-	
-	//========================methode annuler commande====================//
+	// public String ValiderCommandeEnAttente() {
+	//
+	// double sommePrixTotal = 0;
+	// for (LigneCommande ligne : this.listeLigneCommande) {
+	// if (ligne.getValide().equals("En attente")) {
+	//
+	// // Récupérer le produit commandé
+	// Produit prodValide = ligne.getAttProduit();
+	// prodValide = prodService.getProduitById(prodValide);
+	// prodValide.setQuantite(prodValide.getQuantite() - ligne.getQuantite());
+	//
+	// // Actualiser la liste à afficher
+	// this.listeLigneCommandeAttente = (List<LigneCommande>)
+	// ligneCommandeService.getLigneCommande(this.client);
+	// //FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("listeLigneCommandeAttente",
+	// listeAttente);
+	//
+	// } else {
+	// continue;
+	// }
+	//
+	// }
+	//
+	// return "ajouterLigneCommande";
+	//
+	// }
+
+	// ========================methode annuler commande====================//
 	public String Annuler() {
 
 		for (LigneCommande ligne : this.listeLigneCommande) {
@@ -366,6 +374,53 @@ public class LigneCommandeManagedBean implements Serializable{
 			}
 		}
 		return "panier";
+	}
+
+	// ========================methode : obtenir facture====================//
+
+	public void facture() throws FileNotFoundException, DocumentException, IOException {
+
+		Document document = new Document();
+
+		document = new Document(PageSize.A4, 50, 50, 50, 50);
+		
+		
+		try {
+			PdfWriter pdfWriter = PdfWriter.getInstance(document, new FileOutputStream(
+					"C:\\Users\\inti-0265\\Documents\\anissa\\Adaming_18-09-2017\\TP\\Facture_Client.pdf"));
+
+			// pdfWriter.setViewerPreferences(PdfWriter.PageLayoutTwoColumnLeft);
+			document.open(); 
+			Paragraph p = new Paragraph("Nom : " + client.getNom());
+			
+			for(LigneCommande ligne:this.listeLigneCommande) {
+			listeLigneCommande = ligneCommandeService.GetAllLigneCommande(this.client);
+
+            System.out.println(ligne); 
+			Paragraph p1 = new Paragraph("Numero de la commande : " + ligneCommande.getAttCommande().getId_com());
+			document.add(p1);
+			}
+			
+			Paragraph p2 = new Paragraph("Information sur le produit");
+			//Paragraph p3 = new Paragraph("Identifiant produit : " + );
+			//Paragraph p4 = new Paragraph("Description produit" + ligneCommande.getAttProduit().getDescription());
+			//Paragraph p5 = new Paragraph("Prix" + ligneCommande.getAttProduit().getPrix());
+
+			document.add(p);
+			document.add(p2);
+			//document.add(p3);
+			//document.add(p4);
+			//document.add(p5);
+
+		} catch (com.itextpdf.text.DocumentException e) {
+			
+			e.printStackTrace();
+		}
+
+		// document.newPage();
+
+		document.close();
+
 	}
 
 }

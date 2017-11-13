@@ -11,7 +11,7 @@
 	<h:outputStylesheet library="css" name="monCss.css"></h:outputStylesheet>
 </h:head>
 
-<h:body styleClass="flex" >
+<h:body styleClass="flex">
 	<!-- ============================ CSS  ============================ -->
 
 	<!-- ============================ Bannière  ============================ -->
@@ -55,13 +55,14 @@
 
 			<p:dialog header="Connection" widgetVar="dlgClient" resizable="false">
 				<h:panelGrid columns="2" cellpadding="5">
-					<p:inputText id="username" value="#{cMB.client.mail}" required="true" label="username">
-						<f:validator validatorId="validatorMail"/>
+					<p:inputText id="username" value="#{cMB.client.mail}"
+						required="true" label="username">
+						<f:validator validatorId="validatorMail" />
 					</p:inputText>
 					<p:watermark for="username" value="Email" />
 
-					<p:password id="password" value="#{cMB.client.mdp}"
-						required="true" label="password" />
+					<p:password id="password" value="#{cMB.client.mdp}" required="true"
+						label="password" />
 					<p:watermark for="password" value="Mot de passe" />
 
 					<f:facet name="footer">
@@ -77,8 +78,8 @@
 	<!-- ============================ les produits  ============================ -->
 	<div>
 		<h:form>
-			<p:dataGrid var="pro" value="#{pMB.listeProduit}" columns="3"
-				layout="grid" rows="12" id="cat"
+			<p:dataGrid var="pro" value="#{pMB.listeProduit}" columns="4"
+				layout="grid" rows="16" id="cat"
 				style="position:relative; bottom:100px;">
 
 				<f:facet name="header">
@@ -102,30 +103,52 @@
 			</p:dataGrid>
 		</h:form>
 
+
 		<p:dialog header="Info Produit" widgetVar="proDialog" modal="true"
 			showEffect="fade" hideEffect="fade" resizable="false">
 			<p:outputPanel id="proDetail" style="text-align:center;">
 				<p:panelGrid columns="2" rendered="#{not empty pMB.produit}"
 					columnClasses="label,value">
 
-					<h:outputText value="Id produit :" />
-					<h:outputText value="#{pMB.produit.idProduit}" />
+					<p:column>
+						<p:row>
+							<b><h:outputText value="Id produit :" /></b>
+							<h:outputText value="#{pMB.produit.idProduit}" />
+						</p:row>
+						<br /><br />
+						
+						<p:row>
+							<b><h:outputText value="Description :" /></b>
+							<h:outputText value="#{pMB.produit.description}" />
+						</p:row>
+						<br /><br />
 
-					<h:outputText value="Description :" />
-					<h:outputText value="#{pMB.produit.description}" />
+						<p:row>
+							<b><h:outputText value="Prix :" /></b>
+							<h:outputText value="#{pMB.produit.prix}" />
+						</p:row>
+						<br /><br />
 
-					<h:outputText value="Prix :" />
-					<h:outputText value="#{pMB.produit.prix}" />
-
-					<h:outputText value="En stock :" />
-					<h:outputText value="#{pMB.produit.quantite}" />
+						<p:row>
+							<b><h:outputText value="En stock :" /></b>
+							<h:outputText value="#{pMB.produit.quantite}" />
+						</p:row>
+					</p:column>
+					<p:column>
+						<p:graphicImage value="#{iMB.image}" width="300">
+							<f:param name="idProduit" value="#{pMB.produit.idProduit}"></f:param>
+						</p:graphicImage>
+					</p:column>
 				</p:panelGrid>
 			</p:outputPanel>
-			<b><p:commandLink value="Ajouter au panier" style="color:#b32400"
-					type="button" action="seConnecter"
-					styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
-					update="@all" /></b>
+			<h:form>
+				<b><p:commandLink value="Ajouter au panier"
+						style="color:#b32400" type="button" action="seConnecter"
+						styleClass="ui-confirmdialog-yes" icon="ui-icon-check"
+						update="@all" /></b>
+			</h:form>
 		</p:dialog>
+
 	</div>
 
 </h:body>
